@@ -1,32 +1,36 @@
 # NestJS Integration Tests skill
 
-Skill para o Cursor que guia a escrita de **testes de integração** em NestJS (API + DB), com Supertest.
+Cursor skill that guides writing **integration tests** in NestJS (API + DB) with Supertest.
 
-## O que cobre
+## What it covers
 
-- **Posição e nome:** Ficheiros em `test/`, com nome `*.e2e-spec.ts` ou `*.integration-spec.ts`.
-- **Dados de teste:** **Factories** em `test/factories/` com overrides — não definir objetos inline nos testes; opcionalmente **fixtures** em `test/fixtures/` para dados estáticos.
-- **Datas:** **Datas determinísticas** via Jest fake timers e helper em `test/helpers/date.helper.ts` (`TEST_DATE`, `useFakeTime()`); usar em factories e asserts.
-- **HTTP:** Supertest em `request(app.getHttpServer())`; app criada com `Test.createTestingModule` e `createNestApplication()`.
-- **Base de dados:** Uso de test DB separada e limpeza entre testes quando necessário.
-- **Comentários:** Em inglês, 1–2 linhas, objetivos (mesmo padrão da skill de unit tests).
+- **Placement and naming:** Files in `test/`, named `*.e2e-spec.ts` or `*.integration-spec.ts`.
+- **Test data:** **Factories** in `test/factories/` with overrides — do not define objects inline; optionally **fixtures** in `test/fixtures/` for static data.
+- **Dates:** **Deterministic dates** via Jest fake timers and helper in `test/helpers/date.helper.ts` (`TEST_DATE`, `useFakeTime()`); use in factories and asserts.
+- **HTTP:** Supertest with `request(app.getHttpServer())`; app created with `Test.createTestingModule` and `createNestApplication()`.
+- **Database:** Use of separate test DB and cleanup between tests when needed.
+- **Comments:** In English, 1–2 lines, objective (same pattern as unit tests skill).
 
-## O que não cobre
+## What it does not cover
 
-- Testes **unitários** (ver skill nestjs-unit-tests).
-- Testes **E2E com browser** (Playwright, Cypress).
+- **Unit** tests — see nestjs-unit-tests skill.
+- **Browser E2E** tests (Playwright, Cypress).
 
-## Estrutura recomendada
+## Recommended structure
 
 ```
 test/
   *.e2e-spec.ts
   factories/       ← user.factory.ts, create-user-dto.factory.ts, etc.
-  fixtures/       ← dados estáticos (opcional)
+  fixtures/        ← static data (optional)
   helpers/
     date.helper.ts
 ```
 
-## Ativação
+## Activation
 
-A skill é aplicada quando o utilizador cria ou edita testes de integração/e2e em NestJS (ficheiros em `test/`, `*.e2e-spec.ts`, Supertest, factories, test DB, etc.).
+The skill applies when the user creates or edits integration/e2e tests in NestJS (files in `test/`, `*.e2e-spec.ts`, Supertest, factories, test DB, etc.).
+
+## Source
+
+From [my-agent-skills](https://github.com/mariocosttaa/my-agent-skills): `git clone -b nestjs-integration-tests https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/nestjs-integration-tests ~/.cursor/skills/`

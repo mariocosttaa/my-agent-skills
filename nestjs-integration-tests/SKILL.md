@@ -10,32 +10,32 @@ description: >
 
 # NestJS Integration Tests
 
-Skill para escrever testes de integração em NestJS: chamadas HTTP reais (Supertest), base de dados de teste, **factories** para dados reutilizáveis (evitar dados inline), **datas fixas** com fake timers, e comentários em inglês.
+Skill for writing NestJS integration tests: real HTTP calls (Supertest), test database, **factories** for reusable data (avoid inline data), **fixed dates** with fake timers, and comments in English.
 
 ---
 
-## Ao criar ou editar testes: perguntar antes de executar e corrigir
+## When creating or editing tests: ask before running and fixing
 
-1. **Executar e corrigir testes:** Ao criar ou alterar testes de integração, **perguntar** ao utilizador se quer que executes os testes e, se falharem, os corriga. Não assumir que deve correr e corrigir automaticamente.
-2. **Alterar só ficheiros de teste (e helpers/factories de teste):** Se para fazer os testes passarem for necessário alterar **código fora da pasta de testes** (ex.: controllers, services, módulos, config da app, migrations), **não o faças**. Em vez disso, **pergunta** ao utilizador: explica o que está a falhar e que alteração seria necessária noutro ficheiro, e pergunta se deseja que apliques essa alteração ou se prefere resolver de outra forma. É permitido alterar ficheiros dentro de `test/` (specs, factories, fixtures, helpers) para corrigir os testes.
+1. **Run and fix tests:** When creating or changing integration tests, **ask** the user if they want you to run the tests and, if they fail, fix them. Do not assume you should run and fix automatically.
+2. **Only modify test files (and helpers/factories):** If making the tests pass requires changing **code outside the test folder** (e.g. controllers, services, modules, app config, migrations), **do not do it**. Instead, **ask** the user: explain what is failing and what change would be needed in another file, and ask if they want you to apply that change or prefer to resolve it another way. You may change files inside `test/` (specs, factories, fixtures, helpers) to fix the tests.
 
-Resumo: perguntar se deve testar e corrigir; ao corrigir, só mexer em ficheiros dentro de `test/`; qualquer mudança em `src/` ou noutra pasta exige pergunta prévia.
+Summary: ask if you should run tests and fix; when fixing, only touch files inside `test/`; any change in `src/` or another folder requires prior confirmation.
 
 ---
 
-## Posição e nome do ficheiro
+## File placement and naming
 
-- **Posição:** Testes de integração ficam numa pasta **`test/`** na raiz do projeto (separada de `src/`).
-- **Nome:** `*.e2e-spec.ts` (convenção NestJS) ou `*.integration-spec.ts`.
-  - Exemplos: `test/app.e2e-spec.ts`, `test/users.e2e-spec.ts`, `test/auth.integration-spec.ts`.
+- **Placement:** Integration tests live in a **`test/`** folder at project root (separate from `src/`).
+- **Name:** `*.e2e-spec.ts` (NestJS convention) or `*.integration-spec.ts`.
+  - Examples: `test/app.e2e-spec.ts`, `test/users.e2e-spec.ts`, `test/auth.integration-spec.ts`.
 
-Estrutura recomendada:
+Recommended structure:
 ```
 test/
   app.e2e-spec.ts
   users.e2e-spec.ts
-  jest-e2e.json           ← config Jest para e2e (opcional)
-  factories/               ← dados reutilizáveis (ver abaixo)
+  jest-e2e.json           ← Jest config for e2e (optional)
+  factories/               ← reusable data (see below)
     user.factory.ts
     create-user-dto.factory.ts
   fixtures/                ← dados estáticos se necessário
@@ -47,19 +47,19 @@ Não colocar testes de integração junto ao código em `src/`; a pasta `test/` 
 
 ---
 
-## Factories em vez de dados inline (obrigatório como padrão)
+## Factories instead of inline data (required by default)
 
-- **Problema:** Definir objetos de teste (user, body do POST, resposta esperada) em cada teste torna a manutenção difícil: se a API mudar o corpo, é preciso alterar dezenas de sítios.
-- **Solução:** Usar **factory functions** que devolvem um objeto base e aceitam **overrides** opcionais.
+- **Problem:** Defining test objects (user, POST body, expected response) in each test makes maintenance hard: if the API changes the body, dozens of places need updating.
+- **Solution:** Use **factory functions** that return a base object and accept optional **overrides**.
 
-### Onde colocar
-- **`test/factories/`** — uma factory por entidade ou DTO (ex.: `user.factory.ts`, `create-user-dto.factory.ts`).
+### Where to put them
+- **`test/factories/`** — one factory per entity or DTO (e.g. `user.factory.ts`, `create-user-dto.factory.ts`).
 
-### Formato da factory
-- Função que retorna objeto base + spread de overrides: `{ ...base, ...overrides }`.
-- Usar datas fixas vindas do helper de datas (ex.: `TEST_DATE`) para manter asserts determinísticos.
+### Factory format
+- Function that returns base object + spread of overrides: `{ ...base, ...overrides }`.
+- Use fixed dates from the date helper (e.g. `TEST_DATE`) to keep asserts deterministic.
 
-Exemplo:
+Example:
 ```typescript
 // test/factories/user.factory.ts
 import { TEST_DATE } from '../helpers/date.helper';
@@ -83,7 +83,7 @@ export const createUserDtoMock = (overrides: Partial<CreateUserDto> = {}) => ({
 
 Nos testes:
 ```typescript
-// Não definir inline; usar factory.
+// Do not define inline; use factory.
 await request(app.getHttpServer())
   .post('/users')
   .send(createUserDtoMock())           // base
@@ -91,30 +91,30 @@ await request(app.getHttpServer())
 
 await request(app.getHttpServer())
   .post('/users')
-  .send(createUserDtoMock({ email: 'other@test.com' }))  // só muda o que importa
+  .send(createUserDtoMock({ email: 'other@test.com' }))  // only change what matters
   .expect(201);
 ```
 
-- **Fixtures:** Para listas ou dados que nunca variam (ex.: roles, países), pode usar ficheiros em `test/fixtures/` com dados estáticos. Para payloads e entidades que variam por cenário, preferir factories.
+- **Fixtures:** For lists or data that never varies (e.g. roles, countries), you can use files in `test/fixtures/` with static data. For payloads and entities that vary by scenario, prefer factories.
 
 ---
 
-## Datas determinísticas (fake timers)
+## Deterministic dates (fake timers)
 
-- **Problema:** `expect(entity.createdAt).toEqual(new Date())` falha por milissegundos (flaky tests).
-- **Solução:** Congelar o tempo com **Jest Fake Timers** e uma data fixa centralizada.
+- **Problem:** `expect(entity.createdAt).toEqual(new Date())` fails by milliseconds (flaky tests).
+- **Solution:** Freeze time with **Jest Fake Timers** and a centralised fixed date.
 
-### Helper recomendado
-- **`test/helpers/date.helper.ts`** — exportar uma constante `TEST_DATE` (ex.: `new Date('2024-01-15T10:00:00.000Z')`) e uma função ou blocos `beforeEach`/`afterEach` que:
-  - `jest.useFakeTimers()` e `jest.setSystemTime(TEST_DATE)` no setup;
-  - `jest.runOnlyPendingTimers()` e `jest.useRealTimers()` no teardown.
+### Recommended helper
+- **`test/helpers/date.helper.ts`** — export a constant `TEST_DATE` (e.g. `new Date('2024-01-15T10:00:00.000Z')`) and a function or `beforeEach`/`afterEach` blocks that:
+  - `jest.useFakeTimers()` and `jest.setSystemTime(TEST_DATE)` in setup;
+  - `jest.runOnlyPendingTimers()` and `jest.useRealTimers()` in teardown.
 
-Exemplo de uso nos specs:
+Example usage in specs:
 ```typescript
 import { TEST_DATE, useFakeTime } from '../helpers/date.helper';
 
 describe('Users API (integration)', () => {
-  useFakeTime(); // aplica fake timers em beforeEach/afterEach
+  useFakeTime(); // applies fake timers in beforeEach/afterEach
 
   it('POST /users sets createdAt', async () => {
     const res = await request(app.getHttpServer())
@@ -126,47 +126,47 @@ describe('Users API (integration)', () => {
 });
 ```
 
-- Factories devem usar `TEST_DATE` (ou equivalente) para `createdAt`/`updatedAt` para que os asserts não dependam do relógio real.
-- Sempre restaurar timers reais no `afterEach` para não afetar outros testes ou runners.
+- Factories should use `TEST_DATE` (or equivalent) for `createdAt`/`updatedAt` so asserts do not depend on the real clock.
+- Always restore real timers in `afterEach` to avoid affecting other tests or runners.
 
 ---
 
-## Comentários (padrão igual aos unit tests)
+## Comments (same pattern as unit tests)
 
-- **Idioma:** Sempre **inglês**.
-- **Estilo:** Uma ou duas linhas, objetivos.
-- **Onde:** No topo do `describe` (o que está a ser testado), em `beforeAll`/`beforeEach` (setup da app ou DB), e em passos não óbvios dentro dos `it` (ex.: por que se usa uma factory com certo override, o que se está a validar na resposta).
-
----
-
-## Sintaxe e estrutura do spec
-
-- **App:** `Test.createTestingModule({ imports: [AppModule] })` (ou módulos necessários), depois `createNestApplication()`, `app.init()` em `beforeAll`; `app.close()` em `afterAll`.
-- **HTTP:** Usar **Supertest**: `request(app.getHttpServer()).get(...).post(...).expect(...)`.
-- **Base de dados:** Usar uma **test database** separada (variável de ambiente, ex.: `DB_NAME=app_test`). Entre testes, limpar dados ou transações (ex.: `afterEach` com truncate/delete das tabelas usadas) para isolamento.
-- **Assertions:** Validar status, corpo da resposta e, quando relevante, que os dados persistiram na DB (query direta ou re-get). Para campos de data, comparar com `TEST_DATE` (ou valor derivado do helper).
+- **Language:** Always **English**.
+- **Style:** One or two lines, objective.
+- **Where:** At the top of `describe` (what is being tested), in `beforeAll`/`beforeEach` (app or DB setup), and in non-obvious steps inside `it` (e.g. why a factory with a certain override is used, what is being validated in the response).
 
 ---
 
-## Regras rápidas
+## Spec syntax and structure
 
-| Regra | Detalhe |
+- **App:** `Test.createTestingModule({ imports: [AppModule] })` (or required modules), then `createNestApplication()`, `app.init()` in `beforeAll`; `app.close()` in `afterAll`.
+- **HTTP:** Use **Supertest**: `request(app.getHttpServer()).get(...).post(...).expect(...)`.
+- **Database:** Use a separate **test database** (env var, e.g. `DB_NAME=app_test`). Between tests, clean data or use transactions (e.g. `afterEach` with truncate/delete of used tables) for isolation.
+- **Assertions:** Validate status, response body and, when relevant, that data persisted in the DB (direct query or re-get). For date fields, compare with `TEST_DATE` (or value derived from the helper).
+
+---
+
+## Quick rules
+
+| Rule | Detail |
 |-------|--------|
-| Pasta | `test/` na raiz |
-| Nome | `*.e2e-spec.ts` ou `*.integration-spec.ts` |
-| Dados de teste | Factories em `test/factories/` com overrides; não definir objetos inline |
-| Datas | `TEST_DATE` + `useFakeTimers` / `jest.setSystemTime`; restaurar com `useRealTimers` |
-| DB | Test DB dedicada; limpar entre testes quando necessário |
-| Comentários | Inglês, 1–2 linhas, objetivos |
-| HTTP | Supertest em `request(app.getHttpServer())` |
+| Folder | `test/` at root |
+| Name | `*.e2e-spec.ts` or `*.integration-spec.ts` |
+| Test data | Factories in `test/factories/` with overrides; do not define objects inline |
+| Dates | `TEST_DATE` + `useFakeTimers` / `jest.setSystemTime`; restore with `useRealTimers` |
+| DB | Dedicated test DB; clean between tests when needed |
+| Comments | English, 1–2 lines, objective |
+| HTTP | Supertest in `request(app.getHttpServer())` |
 
 ---
 
-## Resumo
+## Summary
 
-- **Onde:** `test/*.e2e-spec.ts`, com `test/factories/`, `test/helpers/`, opcionalmente `test/fixtures/`.
-- **Dados:** Sempre que possível factories (e DTOs/request body) com overrides; fixtures para dados estáticos.
-- **Datas:** Sempre determinísticas via fake timers e `TEST_DATE` (ou equivalente) no helper.
-- **Comentários:** Em inglês, concisos, nos pontos que ajudam a ler o teste.
+- **Where:** `test/*.e2e-spec.ts`, with `test/factories/`, `test/helpers/`, optionally `test/fixtures/`.
+- **Data:** Use factories (and DTOs/request body) with overrides whenever possible; fixtures for static data.
+- **Dates:** Always deterministic via fake timers and `TEST_DATE` (or equivalent) in the helper.
+- **Comments:** In English, concise, at points that help read the test.
 
-Ver [reference.md](reference.md) para exemplos completos de factories, date helper, e specs de integração. Templates em `assets/`: `date.helper.template.ts`, `factory.template.ts`, `dto-factory.template.ts`.
+See [reference.md](reference.md) for full examples of factories, date helper, and integration specs. Templates in `assets/`: `date.helper.template.ts`, `factory.template.ts`, `dto-factory.template.ts`.
