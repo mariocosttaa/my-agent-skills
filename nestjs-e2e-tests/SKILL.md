@@ -9,57 +9,57 @@ description: >
 
 # E2E Tests (Browser) — Playwright
 
-Skill para escrever testes E2E em browser com **Playwright**: **Page Object Model (POM)** obrigatório, seletores estáveis (data-testid, role, label), **fixtures** para autenticação/setup, e comentários em inglês. Foco em happy paths críticos do negócio.
+Skill for writing browser E2E tests with **Playwright**: **Page Object Model (POM)** required, stable selectors (data-testid, role, label), **fixtures** for auth/setup, and comments in English. Focus on critical business happy paths.
 
 ---
 
-## Ao criar ou editar testes: perguntar antes de executar e corrigir
+## When creating or editing tests: ask before running and fixing
 
-1. **Executar e corrigir testes:** Ao criar ou alterar testes E2E, **perguntar** ao utilizador se quer que executes os testes e, se falharem, os corriga. Não assumir que deve correr e corrigir automaticamente.
-2. **Alterar só ficheiros de teste (e2e/):** Se para fazer os testes passarem for necessário alterar **código fora da pasta E2E** (ex.: componentes do frontend, páginas, API, config), **não o faças**. Em vez disso, **pergunta** ao utilizador: explica o que está a falhar e que alteração noutro ficheiro seria necessária (ex.: adicionar `data-testid`, alterar texto ou fluxo), e pergunta se deseja que apliques essa alteração. É permitido alterar ficheiros dentro de `e2e/` (specs, pages, fixtures) para corrigir os testes.
+1. **Run and fix tests:** When creating or changing E2E tests, **ask** the user if they want you to run the tests and, if they fail, fix them. Do not assume you should run and fix automatically.
+2. **Only modify test files (e2e/):** If making the tests pass requires changing **code outside the E2E folder** (e.g. frontend components, pages, API, config), **do not do it**. Instead, **ask** the user: explain what is failing and what change in another file would be needed (e.g. add `data-testid`, change text or flow), and ask if they want you to apply that change. You may change files inside `e2e/` (specs, pages, fixtures) to fix the tests.
 
-Resumo: perguntar se deve testar e corrigir; ao corrigir, só mexer em ficheiros dentro de `e2e/`; qualquer mudança no frontend ou backend exige pergunta prévia.
-
----
-
-## Ferramenta
-
-- **Playwright** — consenso da comunidade para E2E em browser (auto-waiting, multi-browser, uma única suite).
-- Não usar seletores CSS/XPath frágeis; preferir atributos e roles que resistam a mudanças de UI.
+Summary: ask if you should run tests and fix; when fixing, only touch files inside `e2e/`; any change in frontend or backend requires prior confirmation.
 
 ---
 
-## Page Object Model (POM) — obrigatório
+## Tool
 
-- **Problema:** Selectors espalhados nos testes quebram quando a UI muda (IDs, classes); manutenção difícil.
-- **Solução:** Uma classe por página (ou secção relevante) que encapsula locators e ações. Os testes usam apenas a API do Page Object.
-
-### Onde colocar
-- **`e2e/pages/`** ou **`tests/pages/**`** — ex.: `login.page.ts`, `dashboard.page.ts`. Opcional: `base.page.ts` com métodos comuns (navegação, esperas).
-
-### Regras
-- Cada Page Object recebe `Page` do Playwright no construtor; expõe métodos como `goto()`, `login(email, password)`, `expectWelcomeMessage(name)`.
-- **Selectors ficam só dentro do Page Object** — os specs não usam `page.getByTestId(...)` diretamente; usam `loginPage.login(...)`.
-- Se um selector mudar, altera-se apenas no Page Object; os testes continuam válidos.
+- **Playwright** — community consensus for browser E2E (auto-waiting, multi-browser, single suite).
+- Do not use fragile CSS/XPath selectors; prefer attributes and roles that resist UI changes.
 
 ---
 
-## Seletores — ordem de preferência
+## Page Object Model (POM) — required
 
-| Prioridade | Seletor | Exemplo | Quando usar |
+- **Problem:** Selectors scattered in tests break when the UI changes (IDs, classes); hard to maintain.
+- **Solution:** One class per page (or relevant section) that encapsulates locators and actions. Tests use only the Page Object API.
+
+### Where to put them
+- **`e2e/pages/`** or **`tests/pages/**`** — e.g. `login.page.ts`, `dashboard.page.ts`. Optional: `base.page.ts` with common methods (navigation, waits).
+
+### Rules
+- Each Page Object receives Playwright `Page` in the constructor; exposes methods like `goto()`, `login(email, password)`, `expectWelcomeMessage(name)`.
+- **Selectors stay only inside the Page Object** — specs do not use `page.getByTestId(...)` directly; they use `loginPage.login(...)`.
+- If a selector changes, update only the Page Object; tests remain valid.
+
+---
+
+## Selectors — order of preference
+
+| Priority | Selector | Example | When to use |
 |------------|---------|---------|-------------|
-| 1.º | **data-testid** | `page.getByTestId('email-input')` | Elementos sem texto estável, listas, componentes dinâmicos. |
-| 2.º | **Role + name** | `page.getByRole('button', { name: 'Login' })` | Botões, links, headings acessíveis. |
-| 3.º | **Label** | `page.getByLabel('Email')` | Inputs associados a labels. |
-| 4.º | **Text** | `page.getByText('Bem-vindo')` | Conteúdo visível estável. |
-| Evitar | CSS / XPath | `page.locator('#btn-submit')` | Quebra com redesigns e refactors. |
+| 1st | **data-testid** | `page.getByTestId('email-input')` | Elementos sem texto estável, listas, componentes dinâmicos. |
+| 2nd | **Role + name** | `page.getByRole('button', { name: 'Login' })` | Botões, links, headings acessíveis. |
+| 3rd | **Label** | `page.getByLabel('Email')` | Inputs associados a labels. |
+| 4th | **Text** | `page.getByText('Bem-vindo')` | Conteúdo visível estável. |
+| Avoid | CSS / XPath | `page.locator('#btn-submit')` | Quebra com redesigns e refactors. |
 
-- No código (Page Objects), preferir **data-testid** para inputs e botões de formulário quando o texto ou a estrutura mudar com frequência; usar **getByRole** e **getByLabel** para acessibilidade e estabilidade.
-- Comentários no código devem indicar, se útil, por que se escolheu um seletor (ex.: "data-testid because label changes per locale").
+- In code (Page Objects), prefer **data-testid** for form inputs and buttons when text or structure changes often; use **getByRole** and **getByLabel** for accessibility and stability.
+- Comments in code should indicate, if useful, why a selector was chosen (e.g. "data-testid because label changes per locale").
 
 ---
 
-## Estrutura de pastas
+## Folder structure
 
 ```
 e2e/                          # ou playwright/ ou tests/e2e/
@@ -72,69 +72,69 @@ e2e/                          # ou playwright/ ou tests/e2e/
   pages/                      # Page Objects (POM)
     login.page.ts
     dashboard.page.ts
-    base.page.ts              # opcional: métodos comuns
-  fixtures/                   # extensões do Playwright (auth, page objects)
+    base.page.ts              # optional: common methods
+  fixtures/                   # Playwright extensions (auth, page objects)
     auth.fixture.ts           # authenticatedPage, loginPage, etc.
-  utils/                      # opcional: factories, helpers
+  utils/                      # optional: factories, helpers
     data-factory.ts
   playwright.config.ts
 ```
 
-- Specs em `e2e/tests/` (ou equivalente); Page Objects em `e2e/pages/`; fixtures em `e2e/fixtures/`.
-- Nomes de ficheiros: `*.spec.ts` para testes; `*.page.ts` para Page Objects; `*.fixture.ts` para extensões do Playwright.
+- Specs in `e2e/tests/` (or equivalent); Page Objects in `e2e/pages/`; fixtures in `e2e/fixtures/`.
+- File names: `*.spec.ts` for tests; `*.page.ts` for Page Objects; `*.fixture.ts` for Playwright extensions.
 
 ---
 
-## Fixtures do Playwright — auth e setup repetido
+## Playwright fixtures — auth and repeated setup
 
-- **Problema:** Fazer login (ou outro setup) em cada teste duplica código e torna os testes longos.
-- **Solução:** Estender `test` do Playwright com **fixtures** que fornecem, por exemplo, uma página já autenticada ou Page Objects prontos a usar.
+- **Problem:** Logging in (or other setup) in each test duplicates code and makes tests long.
+- **Solution:** Extend Playwright `test` with **fixtures** that provide, for example, an already authenticated page or ready-to-use Page Objects.
 
-Exemplo de ideia (detalhes em [reference.md](reference.md)):
-- Fixture `authenticatedPage`: antes de entregar a página ao teste, navega para login e preenche credenciais; o teste recebe já uma sessão autenticada.
-- Fixtures `loginPage`, `dashboardPage`: constroem os Page Objects a partir de `page`, para usar como `test('...', async ({ loginPage, dashboardPage }) => { ... })`.
+Example idea (details in [reference.md](reference.md)):
+- Fixture `authenticatedPage`: before handing the page to the test, navigates to login and fills credentials; the test receives an already authenticated session.
+- Fixtures `loginPage`, `dashboardPage`: build Page Objects from `page`, to use as `test('...', async ({ loginPage, dashboardPage }) => { ... })`.
 
-Assim evitas repetir o fluxo de login em dezenas de testes; mantém os specs focados na jornada a validar.
-
----
-
-## Isolamento e estabilidade
-
-- **Isolamento:** Cada teste deve ser independente (novo browser context; Playwright trata isto por defeito). Não depender da ordem de execução nem de estado deixado por outro teste.
-- **beforeEach:** Se necessário, ir a uma URL base (ex.: `/`) ou limpar estado para garantir ponto de partida conhecido.
-- **Dados:** Usar **factories** (como nos integration tests) para dados de teste; não hardcodar strings/objetos inline em muitos sítios.
-- **O que testar:** **Happy paths críticos** — login/logout, registo, fluxos principais (ex.: checkout), permissões (admin vs user). Não usar E2E para edge cases; isso fica para unit/integration.
+This avoids repeating the login flow in dozens of tests; keeps specs focused on the journey to validate.
 
 ---
 
-## Comentários (padrão igual às outras skills de testes)
+## Isolation and stability
 
-- **Idioma:** Sempre **inglês**.
-- **Estilo:** Uma ou duas linhas, objetivos.
-- **Onde:** No topo do ficheiro ou do `describe` (o que está a ser testado); em Page Objects (responsabilidade da página); em fixtures (o que a fixture faz); em passos não óbvios dentro do teste.
+- **Isolation:** Each test should be independent (new browser context; Playwright handles this by default). Do not depend on execution order or state left by another test.
+- **beforeEach:** If needed, go to a base URL (e.g. `/`) or clear state to ensure a known starting point.
+- **Data:** Use **factories** (like in integration tests) for test data; do not hardcode strings/objects inline in many places.
+- **What to test:** **Critical happy paths** — login/logout, registration, main flows (e.g. checkout), permissions (admin vs user). Do not use E2E for edge cases; that belongs in unit/integration.
 
 ---
 
-## Regras rápidas
+## Comments (same pattern as other test skills)
 
-| Regra | Detalhe |
+- **Language:** Always **English**.
+- **Style:** One or two lines, objective.
+- **Where:** At the top of the file or `describe` (what is being tested); in Page Objects (page responsibility); in fixtures (what the fixture does); in non-obvious steps inside the test.
+
+---
+
+## Quick rules
+
+| Rule | Detail |
 |-------|--------|
-| Ferramenta | Playwright |
-| Padrão | Page Object Model; seletores só dentro de pages |
-| Seletores | data-testid > getByRole/getByLabel > getByText > evitar CSS/XPath |
-| Estrutura | e2e/tests/, e2e/pages/, e2e/fixtures/ |
-| Auth repetida | Fixtures (ex.: authenticatedPage) |
-| Dados | Factories quando aplicável (reutilizar padrão dos integration tests) |
-| Foco | Happy paths críticos; poucos testes E2E |
-| Comentários | Inglês, 1–2 linhas, objetivos |
+| Tool | Playwright |
+| Pattern | Page Object Model; selectors only inside pages |
+| Selectors | data-testid > getByRole/getByLabel > getByText > avoid CSS/XPath |
+| Structure | e2e/tests/, e2e/pages/, e2e/fixtures/ |
+| Repeated auth | Fixtures (e.g. authenticatedPage) |
+| Data | Factories when applicable (reuse integration tests pattern) |
+| Focus | Critical happy paths; few E2E tests |
+| Comments | English, 1–2 lines, objective |
 
 ---
 
-## Resumo
+## Summary
 
-- **POM** para todas as páginas/fluxos testados; seletores estáveis (data-testid, role, label).
-- **Fixtures** para login e Page Objects; specs limpos e sem repetição de setup.
-- **Estrutura** clara: tests/, pages/, fixtures/, config.
-- **Comentários** em inglês, concisos.
+- **POM** for all tested pages/flows; stable selectors (data-testid, role, label).
+- **Fixtures** for login and Page Objects; clean specs without repeated setup.
+- **Structure** clear: tests/, pages/, fixtures/, config.
+- **Comments** in English, concise.
 
-Ver [reference.md](reference.md) para exemplos completos de Page Object, fixture de auth e spec. Templates em `assets/`: `page.template.ts`, `auth.fixture.template.ts`, `playwright.config.snippet.ts`.
+See [reference.md](reference.md) for full examples of Page Object, auth fixture and spec. Templates in `assets/`: `page.template.ts`, `auth.fixture.template.ts`, `playwright.config.snippet.ts`.

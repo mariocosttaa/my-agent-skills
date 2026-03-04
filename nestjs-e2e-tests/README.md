@@ -1,22 +1,26 @@
 # E2E Tests (Browser) skill
 
-Skill para o Cursor que guia a escrita de **testes E2E em browser** com **Playwright**.
+Cursor skill that guides writing **browser E2E tests** with **Playwright**.
 
-## O que cobre
+## What it covers
 
-- **Ferramenta:** Playwright (auto-waiting, multi-browser).
-- **Page Object Model (POM):** Obrigatório; seletores e ações encapsulados em classes em `e2e/pages/`.
-- **Seletores:** data-testid > getByRole/getByLabel > getByText; evitar CSS/XPath.
-- **Fixtures:** Extensão do `test` para Page Objects e sessão autenticada (`authenticatedPage`), evitando repetir login.
-- **Estrutura:** `e2e/tests/`, `e2e/pages/`, `e2e/fixtures/`; `playwright.config.ts`.
-- **Comentários:** Em inglês, 1–2 linhas, objetivos.
-- **Escopo:** Happy paths críticos (login, registo, fluxos principais, permissões); não edge cases.
+- **Tool:** Playwright (auto-waiting, multi-browser).
+- **Page Object Model (POM):** Required; selectors and actions encapsulated in classes in `e2e/pages/`.
+- **Selectors:** data-testid > getByRole/getByLabel > getByText; avoid CSS/XPath.
+- **Fixtures:** Extend `test` for Page Objects and authenticated session (`authenticatedPage`), avoiding repeated login.
+- **Structure:** `e2e/tests/`, `e2e/pages/`, `e2e/fixtures/`; `playwright.config.ts`.
+- **Comments:** In English, 1–2 lines, objective.
+- **Scope:** Critical happy paths (login, register, main flows, permissions); not edge cases.
 
-## O que não cobre
+## What it does not cover
 
-- Testes **unitários** (ver skill nestjs-unit-tests).
-- Testes de **integração só API** (ver skill nestjs-integration-tests).
+- **Unit** tests — see nestjs-unit-tests skill.
+- **API-only integration** tests — see nestjs-integration-tests skill.
 
-## Ativação
+## Activation
 
-A skill é aplicada quando o utilizador cria ou edita testes E2E em browser (Playwright, Page Objects, Cypress, fluxos de login/UI, etc.).
+The skill applies when the user creates or edits browser E2E tests (Playwright, Page Objects, Cypress, login/UI flows, etc.).
+
+## Source
+
+From [my-agent-skills](https://github.com/mariocosttaa/my-agent-skills): `git clone -b nestjs-e2e-tests https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/nestjs-e2e-tests ~/.cursor/skills/`
