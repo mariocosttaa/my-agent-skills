@@ -1,124 +1,124 @@
 ---
 name: gin-workflow
 description: >
-  Planificação e execução do fluxo de trabalho por requisito no projeto GIN (Jira + repositório).
-  Usar quando o utilizador indicar um requisito Jira (ex. GIN-AZ-42), pedir para criar/abrir uma
-  feature, escrever requisitos.md, plan.md, tasks.md, suggestions.md ou overview.md, atualizar o
-  README, ou seguir o workflow. A skill deve ser lida no início (setup) e durante (preenchimento).
-  Ao trabalhar no README, usar a skill github-readme.
+  Plans and executes the workflow per requirement in the GIN project (Jira + repository).
+  Use when the user indicates a Jira requirement (e.g. GIN-AZ-42), asks to create/open a feature,
+  write requisitos.md, plan.md, tasks.md, suggestions.md or overview.md, update the README, or
+  follow the workflow. The skill should be read at the start (setup) and during (filling).
+  Use github-readme when working on the README.
 ---
 
-# GIN Workflow — Requisito → Plano → Tarefas → Overview
+# GIN Workflow — Requirement → Plan → Tasks → Overview
 
-Fluxo de trabalho por requisito no repositório. *Contexto:* o requisito vem do Jira (ex.: GIN-AZ-42); o utilizador gere o Kanban e o PR. A skill deve ser **relida no início** (setup) e **durante** (preenchimento). Ficheiros: `requisitos.md`, `plan.md`, `tasks.md`, `overview.md`; `suggestions.md` é opcional.
+Workflow per requirement in the repository. *Context:* the requirement comes from Jira (e.g. GIN-AZ-42); the user manages Kanban and PR. The skill should be **re-read at the start** (setup) and **during** (filling). Files: `requisitos.md`, `plan.md`, `tasks.md`, `overview.md`; `suggestions.md` is optional.
 
 ---
 
-## Fase 1: Início (setup)
+## Phase 1: Start (setup)
 
-Branch, directório, requisitos, estrutura e README.
+Branch, directory, requirements, structure and README.
 
-| Passo | O que fazer |
+| Step | What to do |
 |-------|-------------|
-| 1 | Criar a feature branch: `git checkout -b GIN-AZ-42`. |
-| 2 | Criar o directório da feature: `/<código-jira>/`. |
-| 3 | Criar `requisitos.md` com a descrição do requisito (pt-PT). |
-| 4 | Criar `plan.md`, `tasks.md`, `overview.md` (templates ou vazios); opcionalmente `suggestions.md`. |
-| 5 | Actualizar o README com a secção da nova feature e links para os ficheiros. |
+| 1 | Create the feature branch: `git checkout -b GIN-AZ-42`. |
+| 2 | Create the feature directory: `/<jira-code>/`. |
+| 3 | Create `requisitos.md` with the requirement description (pt-PT). |
+| 4 | Create `plan.md`, `tasks.md`, `overview.md` (templates or empty); optionally `suggestions.md`. |
+| 5 | Update the README with the new feature section and links to the files. |
 
 ---
 
-## Fase 2: Durante (preenchimento)
+## Phase 2: During (filling)
 
-Plan, tasks, suggestions e overview ao longo da implementação.
+Plan, tasks, suggestions and overview throughout implementation.
 
-| Ficheiro | Quando preencher |
+| File | When to fill |
 |----------|------------------|
-| `plan.md` | Durante: abordagem, decisões, ordem de trabalho. |
-| `tasks.md` | Durante: marcar `[x]` conforme se avança; adicionar tarefas se necessário. |
-| `suggestions.md` | Durante (opcional): melhorias ou correções vistas que não dependem do requisito. |
-| `overview.md` | Ao concluir: resumo final do implementado. |
+| `plan.md` | During: approach, decisions, order of work. |
+| `tasks.md` | During: mark `[x]` as you progress; add tasks if needed. |
+| `suggestions.md` | During (optional): errors and suggestions that do not depend on the requirement. |
+| `overview.md` | On completion: final summary of what was implemented. |
 
 ---
 
-## Os ficheiros
+## The files
 
-| Ficheiro | Obrigatório | Propósito |
+| File | Required | Purpose |
 |----------|-------------|-----------|
-| `requisitos.md` | ✅ | Descrição do requisito, critérios de aceitação. |
-| `plan.md` | ✅ | Plano de execução; preencher durante a implementação. |
-| `tasks.md` | ✅ | Checklist `[ ]` / `[x]`; actualizar durante. |
-| `overview.md` | ✅ | Resumo final (preencher ao concluir). |
-| `suggestions.md` | Opcional | Erros encontrados e sugestões que não dependem do requisito; com referência e local. |
+| `requisitos.md` | ✅ | Requirement description, acceptance criteria. |
+| `plan.md` | ✅ | Execution plan; fill during implementation. |
+| `tasks.md` | ✅ | Checklist `[ ]` / `[x]`; update during. |
+| `overview.md` | ✅ | Final summary (fill on completion). |
+| `suggestions.md` | Optional | Errors found and suggestions that do not depend on the requirement; with reference and location. |
 
-### suggestions.md (opcional)
+### suggestions.md (optional)
 
-Regista **erros encontrados** e **sugestões** durante a implementação que **não fazem parte do requisito atual**. Secções: Erros encontrados, Sugestões de melhoria, Outras notas. Tabela com colunas *Local* (ficheiro/path/linha), *Descrição* e *Objectivo*. Ver [assets/suggestions.template.md](assets/suggestions.template.md).
+Records **errors found** and **suggestions** during implementation that **are not part of the current requirement**. Sections: Errors found, Improvement suggestions, Other notes. Table with columns *Location* (file/path/line), *Description* and *Objective*. See [assets/suggestions.template.md](assets/suggestions.template.md).
 
 ---
 
-## Formato de `tasks.md`
+## Format of `tasks.md`
 
-Cada tarefa é uma linha com `[ ]` (por fazer) ou `[x]` (concluída). Uma linha em branco entre tarefas. Opcionalmente, uma descrição curta abaixo da tarefa.
+Each task is a line with `[ ]` (to do) or `[x]` (done). Blank line between tasks. Optionally, a short description below the task.
 
 ```markdown
-[x] - Criar endpoint de validação de email
+[x] - Create email validation endpoint
 
-[ ] - Adicionar testes unitários
+[ ] - Add unit tests
 
-Implementar com Jest, mock do repositório.
+Implement with Jest, mock the repository.
 
-[ ] - Actualizar documentação da API
+[ ] - Update API documentation
 ```
 
-**Regras:**
-- `[ ]` = tarefa por fazer; `[x]` = tarefa concluída.
-- Linha em branco entre cada tarefa.
-- Abaixo da tarefa (opcional): descrição curta numa ou mais linhas, antes da próxima tarefa.
-- Actualizar `tasks.md` à medida que se avança; marcar `[x]` quando a tarefa estiver feita.
+**Rules:**
+- `[ ]` = to do; `[x]` = done.
+- Blank line between each task.
+- Below the task (optional): short description in one or more lines, before the next task.
+- Update `tasks.md` as you progress; mark `[x]` when the task is done.
 
 ---
 
-## Comportamento do agente
+## Agent behaviour
 
-### Fase 1: Início (setup) — quando o utilizador entrega o requisito
+### Phase 1: Start (setup) — when the user provides the requirement
 
-1. **Identificar o código Jira** (ex.: GIN-AZ-42). Se não for dado, perguntar.
-2. **Criar a estrutura**:
+1. **Identify the Jira code** (e.g. GIN-AZ-42). If not given, ask.
+2. **Create the structure**:
    - Branch: `git checkout -b GIN-AZ-42`.
-   - Directório: `/<código-jira>/` (ex.: `/GIN-AZ-42/`).
-3. **Criar os ficheiros** dentro desse directório:
-   - `requisitos.md` — descrição do requisito em pt-PT.
-   - `plan.md` — template ou vazio (a preencher durante).
-   - `tasks.md` — checklist inicial com `[ ]`; derivar do requisito.
-   - `overview.md` — vazio ou com cabeçalho (a preencher ao concluir).
-   - `suggestions.md` — opcional, vazio (a preencher durante).
-4. **Actualizar o README** com a secção da nova feature.
-5. Confirmar ao utilizador: directório criado, ficheiros criados, README actualizado.
+   - Directory: `/<jira-code>/` (e.g. `/GIN-AZ-42/`).
+3. **Create the files** inside that directory:
+   - `requisitos.md` — requirement description in pt-PT.
+   - `plan.md` — template or empty (to fill during).
+   - `tasks.md` — initial checklist with `[ ]`; derive from the requirement.
+   - `overview.md` — empty or with header (to fill on completion).
+   - `suggestions.md` — optional, empty (to fill during).
+4. **Update the README** with the new feature section.
+5. Confirm to the user: directory created, files created, README updated.
 
-### Fase 2: Durante (preenchimento) — durante a implementação
+### Phase 2: During (filling) — during implementation
 
-- **plan.md**: Preencher abordagem, decisões, ordem de trabalho; actualizar se o plano mudar.
-- **tasks.md**: Marcar `[x]` quando concluída; adicionar descrições curtas abaixo das tarefas; adicionar novas tarefas se necessário.
-- **suggestions.md** (opcional): Registar erros encontrados e sugestões; indicar sempre o local (ficheiro/path) e o objectivo.
-- Commits granulares e mensagens descritivas na branch da feature.
+- **plan.md**: Fill approach, decisions, order of work; update if the plan changes.
+- **tasks.md**: Mark `[x]` when done; add short descriptions below tasks; add new tasks if needed.
+- **suggestions.md** (optional): Record errors found and suggestions; always indicate the location (file/path) and objective.
+- Granular commits and descriptive messages on the feature branch.
 
-### Ao concluir a implementação
+### On completion
 
-- **Revisar `tasks.md`**: tarefas relevantes com `[x]`.
-- **Preencher `overview.md`**: resumo conciso do implementado (pt-PT).
-- **Actualizar o README** se necessário.
+- **Review `tasks.md`**: relevant tasks with `[x]`.
+- **Fill `overview.md`**: concise summary of what was implemented (pt-PT).
+- **Update the README** if needed.
 
 ---
 
-## README do repositório
+## Repository README
 
-- **Quando:** Ao criar uma nova feature ou ao concluir implementação.
-- **Como:** Usar a skill **github-readme**; perguntar antes de reescrever o README inteiro.
-- **Conteúdo obrigatório:** Secção que refira os ficheiros por feature:
-  - `requisitos.md`, `plan.md`, `tasks.md`, `overview.md`; opcionalmente `suggestions.md`.
+- **When:** When creating a new feature or on completion.
+- **How:** Use **github-readme**; ask before rewriting the entire README.
+- **Required content:** Section referencing the files per feature:
+  - `requisitos.md`, `plan.md`, `tasks.md`, `overview.md`; optionally `suggestions.md`.
 
-Exemplo: "Em cada pasta `<código-jira>/` existem `requisitos.md`, `plan.md`, `tasks.md`, `overview.md` e, opcionalmente, `suggestions.md`."
+Example: "In each `<jira-code>/` folder there are `requisitos.md`, `plan.md`, `tasks.md`, `overview.md` and, optionally, `suggestions.md`."
 
 ---
 
@@ -128,17 +128,17 @@ Exemplo: "Em cada pasta `<código-jira>/` existem `requisitos.md`, `plan.md`, `t
 - [assets/plan.template.md](assets/plan.template.md)
 - [assets/tasks.template.md](assets/tasks.template.md)
 - [assets/overview.template.md](assets/overview.template.md)
-- [assets/suggestions.template.md](assets/suggestions.template.md) (opcional)
+- [assets/suggestions.template.md](assets/suggestions.template.md) (optional)
 
-Referência adicional em [reference.md](reference.md).
+See [reference.md](reference.md) for more.
 
 ---
 
-## Regras rápidas
+## Quick rules
 
-- **Idioma**: todos os ficheiros sempre em **português de Portugal**.
-- **Localização**: todos em `/<código-jira>/`, ex.: `GIN-AZ-42/requisitos.md`, `GIN-AZ-42/plan.md`, etc.
-- **Branch**: nome igual ao código Jira (ex.: `GIN-AZ-42`).
-- **tasks.md**: `[ ]` por fazer, `[x]` concluída; linha em branco entre tarefas; descrição curta opcional abaixo.
-- **Commits**: granulares e descritivos na branch da feature.
-- **README**: actualizar na fase início e ao concluir; incluir secção que ligue aos ficheiros da feature.
+- **Language**: all files always in **Portuguese (pt-PT)** (requisitos, plan, tasks, overview, suggestions).
+- **Location**: all in `/<jira-code>/`, e.g. `GIN-AZ-42/requisitos.md`, `GIN-AZ-42/plan.md`, etc.
+- **Branch**: name equals Jira code (e.g. `GIN-AZ-42`).
+- **tasks.md**: `[ ]` to do, `[x]` done; blank line between tasks; optional short description below.
+- **Commits**: granular and descriptive on the feature branch.
+- **README**: update in the start phase and on completion; include section linking to the feature files.

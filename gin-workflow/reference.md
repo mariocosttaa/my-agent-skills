@@ -1,49 +1,49 @@
-# Referência: GIN Workflow
+# Reference: GIN Workflow
 
-## Convenções rápidas
+## Quick conventions
 
-| Elemento | Formato |
+| Element | Format |
 |----------|---------|
-| Código Jira | `GIN-AZ-42` (maiúsculas, hífen) |
-| Branch | Igual ao código Jira |
-| Directório | `/<código-jira>/` |
-| requisitos.md | pt-PT, descrição do requisito |
-| plan.md | pt-PT, plano de execução (preencher durante) |
+| Jira code | `GIN-AZ-42` (uppercase, hyphen) |
+| Branch | Same as Jira code |
+| Directory | `/<jira-code>/` |
+| requisitos.md | pt-PT, requirement description |
+| plan.md | pt-PT, execution plan (fill during) |
 | tasks.md | pt-PT, checklist `[ ]` / `[x]` |
-| overview.md | pt-PT, resumo final (preencher ao concluir) |
-| suggestions.md | pt-PT, opcional; erros e sugestões com referência/local |
+| overview.md | pt-PT, final summary (fill on completion) |
+| suggestions.md | pt-PT, optional; errors and suggestions with reference/location |
 
-## Formato de tasks.md
+## tasks.md format
 
-- `[ ]` — tarefa por fazer
-- `[x]` — tarefa concluída
-- Linha em branco entre cada tarefa
-- Opcional: descrição curta abaixo da tarefa (uma ou mais linhas), antes da próxima
+- `[ ]` — to do
+- `[x]` — done
+- Blank line between each task
+- Optional: short description below the task (one or more lines), before the next
 
-## Integração com Jira
+## Jira integration
 
-- O código Jira vem do identificador da issue (ex.: GIN-AZ-42). O utilizador gere o Kanban e o PR.
-- Ao criar a branch e o directório, usar o código exato da issue.
-- Referenciar o código em commits quando útil: `feat(GIN-AZ-42): adicionar validação de email`.
+- The Jira code comes from the issue identifier (e.g. GIN-AZ-42). The user manages Kanban and PR.
+- When creating the branch and directory, use the exact issue code.
+- Reference the code in commits when useful: `feat(GIN-AZ-42): add email validation`.
 
-## Relação com outras skills
+## Relationship with other skills
 
-- **github-readme**: Usar ao actualizar o README; incluir referência aos ficheiros da feature.
-- **git-commits**: Commits granulares e mensagens descritivas.
+- **github-readme**: Use when updating the README; include reference to the feature files.
+- **git-commits**: Granular commits and descriptive messages.
 
-## Formato de suggestions.md
+## suggestions.md format
 
-Secções: **Erros encontrados**, **Sugestões de melhoria**, **Outras notas**. Tabela com colunas:
+Sections: **Errors found**, **Improvement suggestions**, **Other notes**. Table with columns:
 
-| Local | Descrição | Objectivo |
-|-------|-----------|-----------|
-| `path/ficheiro:linha` ou `path/ficheiro` | O que foi observado | O que corrigir ou melhorar |
+| Location | Description | Objective |
+|----------|-------------|-----------|
+| `path/file:line` or `path/file` | What was observed | What to fix or improve |
 
-## Fases
+## Phases
 
-- **Início (setup)**: branch, directório, requisitos, estrutura, README.
-- **Durante (preenchimento)**: plan, tasks, suggestions (opcional), overview ao concluir.
+- **Start (setup)**: branch, directory, requirements, structure, README.
+- **During (filling)**: plan, tasks, suggestions (optional), overview on completion.
 
 ## Templates
 
-Ver `assets/requisitos.template.md`, `assets/plan.template.md`, `assets/tasks.template.md`, `assets/overview.template.md`, `assets/suggestions.template.md`.
+See `assets/requisitos.template.md`, `assets/plan.template.md`, `assets/tasks.template.md`, `assets/overview.template.md`, `assets/suggestions.template.md`.

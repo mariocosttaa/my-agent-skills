@@ -1,51 +1,51 @@
-# my-skills
+# my-agent-skills
 
-Colecção de **Cursor Agent Skills** — capacidades específicas para o editor [Cursor](https://cursor.com) que guiam o AI a seguir boas práticas e workflows em tarefas concretas (commits, Docker, NestJS, README, etc.).
+Collection of **Cursor Agent Skills** — capabilities for the [Cursor](https://cursor.com) editor that guide the AI to follow best practices and workflows for specific tasks (commits, Docker, NestJS, README, etc.).
 
 ---
 
-## O que são Skills e Rules?
+## What are Skills and Rules?
 
 | | Skills | Rules |
 |---|--------|--------|
-| **O que é** | Pacotes com instruções detalhadas que o agente usa *quando relevante* para o prompt | Regras curtas que correm *em cada prompt* (ou por ficheiro) |
-| **Carregamento** | Só são carregadas se o prompt indicar que são úteis | Sempre aplicadas (ou conforme `globs` / ficheiro em uso) |
-| **Estrutura** | Pasta com `SKILL.md` + opcional `reference.md`, `scripts/`, `assets/` | Ficheiro `.mdc` ou `.md` em `.cursor/rules/` |
-| **Exemplo** | `git-commits` — ajuda com commits e branching | `.cursor/rules/inline-comments.mdc` — comentários em inglês |
+| **What** | Packages with detailed instructions the agent uses *when relevant* for the prompt | Short rules that run *on every prompt* (or by file) |
+| **Loading** | Only loaded when the prompt indicates they are useful | Always applied (or per `globs` / file in use) |
+| **Structure** | Folder with `SKILL.md` + optional `reference.md`, `scripts/`, `assets/` | File `.mdc` or `.md` in `.cursor/rules/` |
+| **Example** | `git-commits` — helps with commits and branching | `.cursor/rules/inline-comments.mdc` — comments in English |
 
-Estas skills são **específicas para o Cursor** e seguem o formato [agentskills.io](https://agentskills.io).
+These skills are **specific to Cursor** and follow the [agentskills.io](https://agentskills.io) format.
 
 ---
 
-## Onde colocar Skills
+## Where to place Skills
 
-| Âmbito | Directório |
+| Scope | Directory |
 |--------|------------|
-| **Global** (todos os projectos) | `~/.cursor/skills/<nome-skill>/` |
-| **Projecto** (só este repo) | `.cursor/skills/<nome-skill>/` ou `.agents/skills/<nome-skill>/` |
+| **Global** (all projects) | `~/.cursor/skills/<skill-name>/` |
+| **Project** (this repo only) | `.cursor/skills/<skill-name>/` or `.agents/skills/<skill-name>/` |
 
-Exemplo para a pasta `git-commits`:
+Example for `git-commits`:
 
 - Global: `~/.cursor/skills/git-commits/`
-- Projecto: `.cursor/skills/git-commits/` (na raiz do repo)
+- Project: `.cursor/skills/git-commits/` (at repo root)
 
 ---
 
-## Como fazer download de uma skill
+## How to download a skill
 
-Cada skill está numa **branch própria**, para poderes descarregar só o que precisas.
+Each skill has its own **branch**, so you can download only what you need.
 
-### Exemplo: skill `git-commits`
+### Example: `git-commits` skill
 
 ```bash
-# Clonar o repo já na branch git-commits (só traz essa pasta)
-git clone -b git-commits https://github.com/mariocosttaa/my-skills.git
-cd my-skills
+# Clone the repo on the git-commits branch (only that folder)
+git clone -b git-commits https://github.com/mariocosttaa/my-agent-skills.git
+cd my-agent-skills
 ```
 
-Ficas com:
+You get:
 ```
-my-skills/
+my-agent-skills/
 ├── README.md
 └── git-commits/
     ├── SKILL.md
@@ -53,40 +53,40 @@ my-skills/
     └── reference.md
 ```
 
-### Instalar no Cursor (exemplo: git-commits)
+### Install in Cursor (example: git-commits)
 
 ```bash
-# Instalar globalmente
+# Install globally
 cp -r git-commits ~/.cursor/skills/
 
-# Ou, para um projecto específico:
+# Or, for a specific project:
 mkdir -p .cursor/skills
 cp -r git-commits .cursor/skills/
 ```
 
 ---
 
-### Branches disponíveis
+### Available branches
 
-A versão começa em **1.0** e incrementa com cada commit. Cada skill tem a sua branch; o comando de instalação copia a pasta para `~/.cursor/skills/`.
+Versioning starts at **1.0** and increments with each commit. Each skill has its own branch; the install command copies the folder to `~/.cursor/skills/`.
 
-| Branch | Skill | v. inicial | v. actual | Instalar (copiar) |
+| Branch | Skill | v. initial | v. current | Install (copy) |
 |--------|-------|------------|-----------|-------------------|
-| `main` | Todas as skills | 1.0 | 1.6 | `git clone https://github.com/mariocosttaa/my-skills.git && cd my-skills && cp -r create-* docker gin-workflow git-* github-readme nestjs-* ~/.cursor/skills/` |
-| `create-cursor-skill` | Criar novas skills no Cursor | 1.0 | 1.5 | `git clone -b create-cursor-skill https://github.com/mariocosttaa/my-skills.git && cp -r my-skills/create-cursor-skill ~/.cursor/skills/` |
-| `create-workflow` | Criar skills de workflow (genérico ou repo-specific) | 1.0 | 1.6 | `git clone -b create-workflow https://github.com/mariocosttaa/my-skills.git && cp -r my-skills/create-workflow ~/.cursor/skills/` |
-| `docker` | Docker, Dockerfile, docker-compose | 1.0 | 1.5 | `git clone -b docker https://github.com/mariocosttaa/my-skills.git && cp -r my-skills/docker ~/.cursor/skills/` |
-| `gin-workflow` | Workflow GIN (Jira + repositório) | 1.0 | 1.3 | `git clone -b gin-workflow https://github.com/mariocosttaa/my-skills.git && cp -r my-skills/gin-workflow ~/.cursor/skills/` |
-| `git-commits` | Mensagens de commit e branching | 1.0 | 1.3 | `git clone -b git-commits https://github.com/mariocosttaa/my-skills.git && cp -r my-skills/git-commits ~/.cursor/skills/` |
-| `github-readme` | README do GitHub | 1.0 | 1.3 | `git clone -b github-readme https://github.com/mariocosttaa/my-skills.git && cp -r my-skills/github-readme ~/.cursor/skills/` |
-| `nestjs-e2e-tests` | E2E com Playwright (NestJS) | 1.0 | 1.3 | `git clone -b nestjs-e2e-tests https://github.com/mariocosttaa/my-skills.git && cp -r my-skills/nestjs-e2e-tests ~/.cursor/skills/` |
-| `nestjs-integration-tests` | Testes de integração NestJS | 1.0 | 1.3 | `git clone -b nestjs-integration-tests https://github.com/mariocosttaa/my-skills.git && cp -r my-skills/nestjs-integration-tests ~/.cursor/skills/` |
-| `nestjs-unit-tests` | Testes unitários NestJS | 1.0 | 1.3 | `git clone -b nestjs-unit-tests https://github.com/mariocosttaa/my-skills.git && cp -r my-skills/nestjs-unit-tests ~/.cursor/skills/` |
+| `main` | All skills | 1.0 | 1.7 | `git clone https://github.com/mariocosttaa/my-agent-skills.git && cd my-agent-skills && cp -r create-* docker gin-workflow git-* github-readme nestjs-* ~/.cursor/skills/` |
+| `create-cursor-skill` | Create new Cursor skills | 1.0 | 1.6 | `git clone -b create-cursor-skill https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/create-cursor-skill ~/.cursor/skills/` |
+| `create-workflow` | Create workflow skills (generic or repo-specific) | 1.0 | 1.7 | `git clone -b create-workflow https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/create-workflow ~/.cursor/skills/` |
+| `docker` | Docker, Dockerfile, docker-compose | 1.0 | 1.6 | `git clone -b docker https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/docker ~/.cursor/skills/` |
+| `gin-workflow` | GIN workflow (Jira + repository) | 1.0 | 1.4 | `git clone -b gin-workflow https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/gin-workflow ~/.cursor/skills/` |
+| `git-commits` | Commit messages and branching | 1.0 | 1.4 | `git clone -b git-commits https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/git-commits ~/.cursor/skills/` |
+| `github-readme` | GitHub README | 1.0 | 1.4 | `git clone -b github-readme https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/github-readme ~/.cursor/skills/` |
+| `nestjs-e2e-tests` | E2E with Playwright (NestJS) | 1.0 | 1.4 | `git clone -b nestjs-e2e-tests https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/nestjs-e2e-tests ~/.cursor/skills/` |
+| `nestjs-integration-tests` | NestJS integration tests | 1.0 | 1.4 | `git clone -b nestjs-integration-tests https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/nestjs-integration-tests ~/.cursor/skills/` |
+| `nestjs-unit-tests` | NestJS unit tests | 1.0 | 1.4 | `git clone -b nestjs-unit-tests https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/nestjs-unit-tests ~/.cursor/skills/` |
 
-Para instalar **por projecto** em vez de global, troca `~/.cursor/skills/` por `.cursor/skills/` (na raiz do repo).
+To install **per project** instead of globally, replace `~/.cursor/skills/` with `.cursor/skills/` (at repo root).
 
 ---
 
-## Repositório
+## Repository
 
-[https://github.com/mariocosttaa/my-skills](https://github.com/mariocosttaa/my-skills)
+[https://github.com/mariocosttaa/my-agent-skills](https://github.com/mariocosttaa/my-agent-skills)

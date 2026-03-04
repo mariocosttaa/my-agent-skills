@@ -1,32 +1,32 @@
-# Sugestões — [Código Jira]
+# Suggestions — [Jira Code]
 
-Coisas observadas durante a implementação que **não fazem parte do requisito atual**. Cada entrada deve ter **referência/local** (ficheiro, path, linha) e **objectivo** (o que corrigir ou melhorar). Útil para backlog ou tarefas futuras.
-
----
-
-## Erros encontrados
-
-Problemas, bugs ou inconsistências vistas no código; não resolvidas porque estão fora do âmbito do requisito.
-
-| Local | Descrição | Objectivo |
-|-------|-----------|-----------|
-| `src/auth/validators/email.ts:12` | Validação não considera domínios internacionais | Corrigir regex para suportar IDN |
-| `src/users/repository.ts` | Query N+1 na listagem de utilizadores | Adicionar eager loading ou batch |
+Items observed during implementation that **are not part of the current requirement**. Each entry should have **reference/location** (file, path, line) and **objective** (what to fix or improve). Useful for backlog or future tasks.
 
 ---
 
-## Sugestões de melhoria
+## Errors found
 
-Refactors, melhorias de UX, comentários, technical debt; propostas para trabalho futuro.
+Problems, bugs or inconsistencies seen in the code; not fixed because they are outside the requirement scope.
 
-| Local | Descrição | Objectivo |
-|-------|-----------|-----------|
-| `src/users/controller.ts` | Lógica de paginação repetida em vários endpoints | Extrair para decorator ou interceptor reutilizável |
-| `frontend/Login.tsx` | Sem feedback visual durante loading | Adicionar spinner ou skeleton |
-| `docker-compose.yml` | Healthcheck do Postgres pode ser mais robusto | Aumentar interval e timeout |
+| Location | Description | Objective |
+|----------|-------------|-----------|
+| `src/auth/validators/email.ts:12` | Validation does not handle international domains | Fix regex to support IDN |
+| `src/users/repository.ts` | N+1 query in user listing | Add eager loading or batch |
 
 ---
 
-## Outras notas
+## Improvement suggestions
 
-[Opcional: observações gerais, dependências, dívida técnica, etc.]
+Refactors, UX improvements, comments, technical debt; proposals for future work.
+
+| Location | Description | Objective |
+|----------|-------------|-----------|
+| `src/users/controller.ts` | Pagination logic repeated in several endpoints | Extract to reusable decorator or interceptor |
+| `frontend/Login.tsx` | No visual feedback during loading | Add spinner or skeleton |
+| `docker-compose.yml` | Postgres healthcheck could be more robust | Increase interval and timeout |
+
+---
+
+## Other notes
+
+[Optional: general observations, dependencies, technical debt, etc.]
