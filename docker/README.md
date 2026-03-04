@@ -1,27 +1,27 @@
 # Docker skill
 
-Skill para o Cursor que guia a edição e gestão de **Docker**, **Dockerfile** e **docker-compose** seguindo boas práticas.
+Cursor skill that guides editing and managing **Docker**, **Dockerfile** and **docker-compose** following best practices.
 
-## O que faz
+## What it does
 
-- **Recomenda** uso de `.env` (e `.env.example`) para ports, passwords e configuração — sem valores estáticos no Compose ou Dockerfile.
-- **Orienta** a estrutura de ficheiros: tudo na raiz vs pasta `docker/` para produção.
-- **Aplica** padrões de docker-compose: `env_file`, interpolação `${VAR:-default}`, healthchecks, volumes nomeados.
-- **Aplica** padrões de Dockerfile: multi-stage, sem segredos em ENV/ARG, lockfile e build reproduzível.
-- **Suporta** cenários local vs produção com overrides (`docker-compose.override.yml`, `docker-compose.prod.yml`, `docker-compose.local.yml`) e, quando fizer sentido, worker em rede/volumes partilhados.
+- **Recommends** use of `.env` (and `.env.example`) for ports, passwords and config — no static values in Compose or Dockerfile.
+- **Guides** file structure: everything at root vs `docker/` folder for production.
+- **Applies** docker-compose patterns: `env_file`, `${VAR:-default}` interpolation, healthchecks, named volumes.
+- **Applies** Dockerfile patterns: multi-stage, no secrets in ENV/ARG, lockfile and reproducible build.
+- **Supports** local vs production with overrides (`docker-compose.override.yml`, `docker-compose.prod.yml`, etc.) and, when needed, worker with shared network/volumes.
 
-## Quando é ativada
+## When it activates
 
-Quando o utilizador trabalha com Docker, Dockerfile, docker-compose, contentores ou deploy. A descrição da skill no Cursor determina a ativação automática.
+When the user works with Docker, Dockerfile, docker-compose, containers or deploy. The skill description in Cursor determines automatic activation.
 
-## Ficheiros
+## Files
 
-| Ficheiro        | Uso |
-|-----------------|-----|
-| `SKILL.md`      | Instruções principais para o agente. |
-| `reference.md`  | Padrões detalhados, exemplos de serviços, overrides e variáveis. |
-| `README.md`     | Este ficheiro — documentação para humanos (não injetado no agente). |
+| File | Use |
+|------|-----|
+| `SKILL.md` | Main instructions for the agent. |
+| `reference.md` | Detailed patterns, service examples, overrides and variables. |
+| `README.md` | This file — documentation for humans (not injected into the agent). |
 
-## Uso manual
+## Source
 
-Podes invocar explicitamente a skill no chat (conforme suportado pelo Cursor) para garantir que as sugestões seguem estas convenções.
+From [my-agent-skills](https://github.com/mariocosttaa/my-agent-skills): `git clone -b docker https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/docker ~/.cursor/skills/`

@@ -1,31 +1,31 @@
-# Referência: Docker e Docker Compose
+# Reference: Docker and Docker Compose
 
-Padrões detalhados para a skill Docker: estrutura de ficheiros, overrides, variáveis e exemplos.
-
----
-
-## 1. Estrutura de ficheiros por cenário
-
-### Só desenvolvimento local
-- Raiz do projeto: `docker-compose.yml` (e opcionalmente `docker-compose.override.yml` para overrides locais automáticos).
-- `.env` (não commitado) e `.env.example` (commitado) na raiz.
-
-### Local + produção (tudo na raiz)
-- `docker-compose.yml` — base (serviços, env_file, ports com variáveis).
-- `docker-compose.override.yml` — overrides de desenvolvimento (opcional; carregado automaticamente com `docker compose up`).
-- `docker-compose.prod.yml` ou `docker-compose.local.yml` — overrides explícitos:
-  - Produção: `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d`
-  - Local com overrides: `docker compose -f docker-compose.yml -f docker-compose.local.yml up -d`
-
-### Local + produção (pasta docker/)
-- Raiz: `docker-compose.yml` (e opcionalmente override) para desenvolvimento.
-- `docker/` com ficheiros de produção, ex.: `docker/docker-compose.prod.yml`, para manter a raiz mais limpa ou quando a stack de produção é diferente.
+Detailed patterns for the Docker skill: file structure, overrides, variables, and examples.
 
 ---
 
-## 2. Variáveis e .env
+## 1. File structure by scenario
 
-### Conteúdo típico de .env.example
+### Local development only
+- Project root: `docker-compose.yml` (and optionally `docker-compose.override.yml` for automatic local overrides).
+- `.env` (not committed) and `.env.example` (committed) at root.
+
+### Local + production (all at root)
+- `docker-compose.yml` — base (services, env_file, ports via variables).
+- `docker-compose.override.yml` — development overrides (optional; loaded automatically with `docker compose up`).
+- `docker-compose.prod.yml` or `docker-compose.local.yml` — explicit overrides:
+  - Production: `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d`
+  - Local with overrides: `docker compose -f docker-compose.yml -f docker-compose.local.yml up -d`
+
+### Local + production (docker/ folder)
+- Root: `docker-compose.yml` (and optional override) for development.
+- `docker/` with production files, e.g. `docker/docker-compose.prod.yml`, to keep root cleaner or when production stack differs.
+
+---
+
+## 2. Variables and .env
+
+### Typical .env.example contents
 ```bash
 # App
 PORT=4444
@@ -41,23 +41,23 @@ POSTGRES_HOST_PORT=5432
 REDIS_HOST_PORT=6379
 REDIS_PASSWORD=change-me
 
-# Opcional: para workers que ligam a serviços externos
+# Optional: for workers connecting to external services
 # POSTGRES_HOST=gin-api-postgres
 # POSTGRES_PORT=5432
 # REDIS_HOST=gin-api-redis
 # REDIS_PORT=6379
 ```
 
-### Regras
-- Ports no host: sempre via variável com default, ex.: `POSTGRES_HOST_PORT=5432`, `REDIS_HOST_PORT=6379`, `PORT=4444`.
-- Passwords: sem valor default no Compose; obrigatório no `.env` (e documentado em `.env.example`).
-- `.env` nunca no Git; `.env.example` sem valores reais, só placeholders.
+### Rules
+- Host ports: always via variable with default, e.g. `POSTGRES_HOST_PORT=5432`, `REDIS_HOST_PORT=6379`, `PORT=4444`.
+- Passwords: no default in Compose; required in `.env` (and documented in `.env.example`).
+- `.env` never in Git; `.env.example` without real values, only placeholders.
 
 ---
 
-## 3. docker-compose: padrões
+## 3. docker-compose patterns
 
-### Serviço app com env e ports
+### App service with env and ports
 ```yaml
 services:
   api:
@@ -83,7 +83,7 @@ services:
         condition: service_started
 ```
 
-### Postgres com healthcheck
+### Postgres with healthcheck
 ```yaml
   postgres:
     image: postgres:15-alpine
@@ -105,7 +105,7 @@ services:
       retries: 5
 ```
 
-### Redis (com password opcional)
+### Redis (with optional password)
 ```yaml
   redis:
     image: redis:7-alpine
@@ -115,19 +115,19 @@ services:
       - "${REDIS_HOST_PORT:-6379}:6379"
     volumes:
       - my-api-redis:/data
-    # Se precisar de password: command com variável do .env (REDIS_PASSWORD)
+    # If password needed: command with variable from .env (REDIS_PASSWORD)
 ```
 
 ---
 
-## 4. Worker que partilha rede/volumes com a API
+## 4. Worker sharing network/volumes with API
 
-Base (`docker-compose.yml`): worker com volumes próprios e variáveis para host/porta do Postgres/Redis.
+Base (`docker-compose.yml`): worker with its own volumes and variables for Postgres/Redis host/port.
 
-Override local (`docker-compose.local.yml`): mesma rede e volume partilhado com a stack da API.
+Local override (`docker-compose.local.yml`): same network and shared volume with the API stack.
 
 ```yaml
-# docker-compose.local.yml — override para desenvolvimento
+# docker-compose.local.yml — override for development
 services:
   worker:
     volumes:
@@ -147,36 +147,36 @@ volumes:
     name: gin-api_gin-api-static
 ```
 
-Uso: criar rede e volume antes (uma vez):  
-`docker network create gin-api_default` e `docker volume create gin-api_gin-api-static`.  
-Depois: `docker compose -f docker-compose.yml -f docker-compose.local.yml up -d`.
+Usage: create network and volume first (once):  
+`docker network create gin-api_default` and `docker volume create gin-api_gin-api-static`.  
+Then: `docker compose -f docker-compose.yml -f docker-compose.local.yml up -d`.
 
 ---
 
 ## 5. Dockerfile: multi-stage (Node/Nest)
 
-- **Stage 1 (builder):** instalar dependências (incl. dev para build), copiar código, correr build.
-- **Stage 2 (production):** só runtime, artefactos do build, dependências de produção.
+- **Stage 1 (builder):** install deps (incl. dev for build), copy code, run build.
+- **Stage 2 (production):** runtime only, build artifacts, production deps.
 
-Exemplo resumido:
-- Builder: `NODE_ENV=development yarn install --frozen-lockfile`, depois `yarn build`.
-- Final: `COPY --from=builder /usr/src/app/dist ./`, `yarn install --production --frozen-lockfile`, `CMD` com pm2-runtime ou node.
+Summary example:
+- Builder: `NODE_ENV=development yarn install --frozen-lockfile`, then `yarn build`.
+- Final: `COPY --from=builder /usr/src/app/dist ./`, `yarn install --production --frozen-lockfile`, `CMD` with pm2-runtime or node.
 
-Não colocar segredos em `ENV`/`ARG`; usar `env_file` ou secrets em runtime.
-
----
-
-## 6. Precedência de variáveis (Compose)
-
-Ordem (maior prioridade primeiro): argumentos da CLI → `environment` no ficheiro → `env_file` → variáveis de shell/`.env` na raiz.
-
-Usar `env_file: .env` e, nos ports e variáveis sensíveis, interpolação `${VAR:-default}` no Compose; valores reais só no `.env`.
+Do not put secrets in `ENV`/`ARG`; use `env_file` or runtime secrets.
 
 ---
 
-## 7. Comandos úteis
+## 6. Variable precedence (Compose)
 
-- Ver configuração resolvida: `docker compose config`
-- Listar variáveis no contentor: `docker compose exec <service> env`
-- Local: `cp .env.example .env` e editar `.env`; depois `docker compose up -d`
-- Produção com override: `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d`
+Order (highest first): CLI args → `environment` in file → `env_file` → shell/.env variables at root.
+
+Use `env_file: .env` and, for ports and sensitive vars, interpolation `${VAR:-default}` in Compose; real values only in `.env`.
+
+---
+
+## 7. Useful commands
+
+- View resolved config: `docker compose config`
+- List variables in container: `docker compose exec <service> env`
+- Local: `cp .env.example .env` and edit `.env`; then `docker compose up -d`
+- Production with override: `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d`

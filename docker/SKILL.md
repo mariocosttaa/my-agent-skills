@@ -9,114 +9,114 @@ description: >
 
 # Docker & Docker Compose
 
-Skill para criar, editar e gerir Dockerfiles e docker-compose de forma segura e portável: variáveis em `.env`, sem ports ou passwords estáticos, e suporte a ambientes local vs produção.
+Skill to create, edit and manage Dockerfiles and docker-compose in a secure, portable way: variables in `.env`, no static ports or passwords, support for local vs production environments.
 
 ---
 
-## Obrigatório: perguntas antes de criar ou editar
+## Required: questions before creating or editing
 
-**Não criar ou alterar ficheiros Docker** até esclarecer o contexto. Perguntar ao utilizador:
+**Do not create or modify Docker files** until you clarify the context. Ask the user:
 
-1. **Stack** — Que serviços existem ou devem existir? (ex.: API NestJS, Postgres, Redis, workers, frontend estático)
-2. **Ambiente** — Só local, só produção, ou ambos? Se ambos, como se distinguem (override files, pasta `docker/`)?
-3. **Estado actual** — Já existe `.env`, `.env.example`, `docker-compose.yml` ou Dockerfile? O que falta ou precisa de ser corrigido?
-4. **Segredos** — Há ports, passwords ou API keys em claro que devem ir para `.env`?
+1. **Stack** — What services exist or should exist? (e.g. NestJS API, Postgres, Redis, workers, static frontend)
+2. **Environment** — Local only, production only, or both? If both, how do they differ (override files, `docker/` folder)?
+3. **Current state** — Do `.env`, `.env.example`, `docker-compose.yml` or Dockerfile already exist? What is missing or needs fixing?
+4. **Secrets** — Are there ports, passwords or API keys in plain text that should go in `.env`?
 
-### Overview antes de implementar
+### Overview before implementing
 
-Após recolher as respostas, **mostrar ao utilizador** o que será feito:
+After gathering answers, **show the user** what will be done:
 
-- Ficheiros a criar ou alterar (ex.: `.env.example`, `docker-compose.yml`, `Dockerfile`)
-- Estrutura proposta (ex.: base + override para local/prod)
-- Variáveis que irão para `.env`
-- Comandos sugeridos (ex.: `cp .env.example .env && docker compose up -d`)
+- Files to create or modify (e.g. `.env.example`, `docker-compose.yml`, `Dockerfile`)
+- Proposed structure (e.g. base + override for local/prod)
+- Variables that will go in `.env`
+- Suggested commands (e.g. `cp .env.example .env && docker compose up -d`)
 
-Só avançar após confirmação ou pedido explícito de execução.
-
----
-
-## Princípios gerais
-
-1. **Nunca** colocar ports, passwords, API keys ou outros segredos em valores estáticos no Compose ou Dockerfile.
-2. **Recomendação:** usar ficheiro `.env` (e `.env.example` no repo) para ports, credenciais e configuração por ambiente.
-3. No Compose: `env_file: .env` e interpolação `"${VAR:-default}"` para ports e variáveis.
-4. No Dockerfile: não usar `ENV` para segredos; segredos só em runtime (env_file, secrets, etc.).
+Only proceed after confirmation or explicit request to execute.
 
 ---
 
-## Antes de editar: verificar o projeto
+## General principles
 
-1. **Procurar** se já existe `.env`, `.env.example` ou `.env.local` na raiz (ou na pasta do serviço).
-2. Se **não existir .env**:
-   - Sugerir criar `.env.example` com variáveis documentadas (ports, `POSTGRES_PASSWORD`, `REDIS_PASSWORD`, etc.) e instruções tipo: `cp .env.example .env` e editar `.env`.
-   - Nunca criar `.env` com valores reais no repo; apenas `.env.example` pode ser commitado.
-3. Se o projeto tiver **só Docker local** → manter `docker-compose.yml` (e opcionalmente `docker-compose.override.yml`) na raiz.
-4. Se houver **Docker para local e produção** (ou múltiplos ambientes):
-   - **Opção A:** Ficheiros na raiz: `docker-compose.yml` (base), `docker-compose.override.yml` (local, auto-carregado), `docker-compose.prod.yml` ou `docker-compose.local.yml` para overrides explícitos.
-   - **Opção B:** Pasta `docker/` com Compose de produção (ex.: `docker/docker-compose.prod.yml`) e manter na raiz o Compose de desenvolvimento. Usar quando a stack de produção for distinta ou para manter a raiz mais limpa.
-
-Se não tiver a certeza entre A e B, preferir **Opção A** (tudo na raiz) e documentar no comentário do Compose o uso (ex.: `docker compose up` para local, `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d` para produção).
+1. **Never** put ports, passwords, API keys or other secrets in static values in Compose or Dockerfile.
+2. **Recommendation:** use `.env` file (and `.env.example` in the repo) for ports, credentials and per-environment config.
+3. In Compose: `env_file: .env` and interpolation `"${VAR:-default}"` for ports and variables.
+4. In Dockerfile: do not use `ENV` for secrets; secrets only at runtime (env_file, secrets, etc.).
 
 ---
 
-## docker-compose: regras
+## Before editing: check the project
+
+1. **Look for** existing `.env`, `.env.example` or `.env.local` at root (or in the service folder).
+2. If **no .env**:
+   - Suggest creating `.env.example` with documented variables (ports, `POSTGRES_PASSWORD`, `REDIS_PASSWORD`, etc.) and instructions like: `cp .env.example .env` and edit `.env`.
+   - Never create `.env` with real values in the repo; only `.env.example` can be committed.
+3. If the project has **only local Docker** → keep `docker-compose.yml` (and optionally `docker-compose.override.yml`) at root.
+4. If there is **Docker for local and production** (or multiple environments):
+   - **Option A:** Files at root: `docker-compose.yml` (base), `docker-compose.override.yml` (local, auto-loaded), `docker-compose.prod.yml` or `docker-compose.local.yml` for explicit overrides.
+   - **Option B:** `docker/` folder with production Compose (e.g. `docker/docker-compose.prod.yml`) and keep development Compose at root. Use when the production stack differs or to keep root cleaner.
+
+If unsure between A and B, prefer **Option A** (all at root) and document usage in a Compose comment (e.g. `docker compose up` for local, `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d` for production).
+
+---
+
+## docker-compose: rules
 
 ### Ports
-- Usar sempre variáveis com fallback: `"${PORT:-4444}:4444"`, `"${POSTGRES_HOST_PORT:-5432}:5432"`, `"${REDIS_HOST_PORT:-6379}:6379"`.
-- Nunca fixar números na forma `"4444:4444"` sem variável.
+- Always use variables with fallback: `"${PORT:-4444}:4444"`, `"${POSTGRES_HOST_PORT:-5432}:5432"`, `"${REDIS_HOST_PORT:-6379}:6379"`.
+- Never hardcode numbers like `"4444:4444"` without a variable.
 
-### Credenciais e configuração
-- `env_file: .env` no serviço.
-- Em `environment`, usar interpolação: `POSTGRES_USER: ${POSTGRES_USER:-gin}`, `POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}` (sem default para passwords).
-- Redis com password: usar variável no `.env` e, se necessário, `command: redis-server --requirepass ${REDIS_PASSWORD}` (garantir que REDIS_PASSWORD está no .env).
+### Credentials and config
+- `env_file: .env` on the service.
+- In `environment`, use interpolation: `POSTGRES_USER: ${POSTGRES_USER:-gin}`, `POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}` (no default for passwords).
+- Redis with password: use variable in `.env` and, if needed, `command: redis-server --requirepass ${REDIS_PASSWORD}` (ensure REDIS_PASSWORD is in .env).
 
 ### Volumes
-- Preferir **volumes nomeados** para dados que devem persistir entre deploys (ex.: `gin-api-pgdata`, `gin-api-static`).
-- Bind mounts (ex.: `./static:/app/static`) apenas para desenvolvimento local quando fizer sentido; em overrides locais pode usar volumes externos partilhados (ex.: com outro repo na mesma rede).
+- Prefer **named volumes** for data that must persist between deploys (e.g. `gin-api-pgdata`, `gin-api-static`).
+- Bind mounts (e.g. `./static:/app/static`) only for local development when it makes sense; in local overrides you can use external shared volumes (e.g. with another repo on the same network).
 
-### Healthchecks e depends_on
-- Para Postgres/Redis: definir `healthcheck` e `depends_on` com `condition: service_healthy` ou `condition: service_started` conforme o serviço.
+### Healthchecks and depends_on
+- For Postgres/Redis: define `healthcheck` and `depends_on` with `condition: service_healthy` or `condition: service_started` as appropriate for the service.
 
-### Comentários no topo
-- Incluir comentário breve: uso local (ex.: `cp .env.example .env && docker compose up -d`) e, se aplicável, referência a deploy (ex.: Coolify, outro repo).
-
----
-
-## Dockerfile: regras
-
-- **Multi-stage** quando houver build (ex.: Node/Nest): stage `builder` para instalar deps e compilar; stage final só com runtime e artefactos.
-- **Base image:** preferir imagens oficiais e Alpine quando adequado (ex.: `node:18-alpine`).
-- **Segredos:** não passar por `ARG`/`ENV` no build; usar secret mounts ou variáveis em runtime.
-- **Lockfile:** usar `COPY package.json yarn.lock ./` (ou npm/pnpm equivalent) e `--frozen-lockfile` para builds reproduzíveis.
-- **Build em stage builder:** se o build precisar de devDependencies (ex.: Nest CLI), usar `NODE_ENV=development` no `yarn install` do builder para não as omitir; no stage final usar `yarn install --production --frozen-lockfile`.
-- **Ficheiros sensíveis:** garantir que `.env`, `.env.*` (exceto exemplo) e chaves não são copiados; usar `.dockerignore` e não fazer `COPY . .` indiscriminado com segredos na árvore.
-
-Ver [reference.md](reference.md) para padrões de multi-stage, healthchecks e overrides.
+### Top comments
+- Include a brief comment: local usage (e.g. `cp .env.example .env && docker compose up -d`) and, if applicable, deployment reference (e.g. Coolify, another repo).
 
 ---
 
-## Override e múltiplos ficheiros
+## Dockerfile: rules
 
-- **Local:** `docker compose up` carrega automaticamente `docker-compose.yml` + `docker-compose.override.yml` se existir.
-- **Produção/outro ambiente:** `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d`. O ficheiro que vem depois ganha em conflitos.
-- **Worker/consumers** que partilham rede/volumes com a API: usar override (ex.: `docker-compose.local.yml`) que define `networks` e `volumes` externos, e documentar criação prévia: `docker network create ...`, `docker volume create ...`.
+- **Multi-stage** when there is a build (e.g. Node/Nest): `builder` stage to install deps and compile; final stage only with runtime and artifacts.
+- **Base image:** prefer official images and Alpine when suitable (e.g. `node:18-alpine`).
+- **Secrets:** do not pass via `ARG`/`ENV` in build; use secret mounts or variables at runtime.
+- **Lockfile:** use `COPY package.json yarn.lock ./` (or npm/pnpm equivalent) and `--frozen-lockfile` for reproducible builds.
+- **Build in builder stage:** if the build needs devDependencies (e.g. Nest CLI), use `NODE_ENV=development` in the `yarn install` of the builder so they are not omitted; in the final stage use `yarn install --production --frozen-lockfile`.
+- **Sensitive files:** ensure `.env`, `.env.*` (except example) and keys are not copied; use `.dockerignore` and avoid indiscriminate `COPY . .` with secrets in the tree.
 
----
-
-## Quando faltar informação
-
-- Se não souberes a stack (ex.: só API ou API + Postgres + Redis), pergunta ou assume o mínimo (só o serviço principal).
-- Se o utilizador não especificar ambiente (local vs prod), seguir as recomendações acima e deixar preparado para ambos (base + override) com variáveis no `.env`.
+See [reference.md](reference.md) for multi-stage patterns, healthchecks and overrides.
 
 ---
 
-## Resumo de ficheiros a sugerir/criar
+## Override and multiple files
 
-| Situação | Ação |
-|----------|------|
-| Sem `.env` nem `.env.example` | Criar `.env.example` com PORT, POSTGRES_*, REDIS_*, etc., e avisar para `cp .env.example .env`. |
-| Ports ou passwords em claro no Compose | Substituir por `${VAR:-default}` e listar variáveis no `.env.example`. |
-| Dockerfile com segredos em ENV/ARG | Remover e documentar uso de env_file/secrets em runtime. |
-| Local + produção | Propor base + override (ex.: `docker-compose.local.yml` ou `docker-compose.prod.yml`) ou pasta `docker/` conforme opção A/B acima. |
+- **Local:** `docker compose up` automatically loads `docker-compose.yml` + `docker-compose.override.yml` if it exists.
+- **Production/other environment:** `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d`. The file that comes later wins on conflicts.
+- **Workers/consumers** that share network/volumes with the API: use override (e.g. `docker-compose.local.yml`) that defines external `networks` and `volumes`, and document prior creation: `docker network create ...`, `docker volume create ...`.
 
-Para exemplos completos e padrões de healthcheck/override, ver [reference.md](reference.md).
+---
+
+## When information is missing
+
+- If you do not know the stack (e.g. API only or API + Postgres + Redis), ask or assume the minimum (only the main service).
+- If the user does not specify environment (local vs prod), follow the recommendations above and leave it ready for both (base + override) with variables in `.env`.
+
+---
+
+## Summary of files to suggest/create
+
+| Situation | Action |
+|-----------|--------|
+| No `.env` or `.env.example` | Create `.env.example` with PORT, POSTGRES_*, REDIS_*, etc., and advise `cp .env.example .env`. |
+| Ports or passwords in plain text in Compose | Replace with `${VAR:-default}` and list variables in `.env.example`. |
+| Dockerfile with secrets in ENV/ARG | Remove and document use of env_file/secrets at runtime. |
+| Local + production | Propose base + override (e.g. `docker-compose.local.yml` or `docker-compose.prod.yml`) or `docker/` folder per option A/B above. |
+
+For complete examples and healthcheck/override patterns, see [reference.md](reference.md).
