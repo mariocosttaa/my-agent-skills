@@ -11,8 +11,10 @@
 | | Rules | Skills |
 |---|-------|--------|
 | **When** | Every prompt (or per file) | When relevant to the task |
-| **Where** | `.cursor/rules/` (`.mdc`) | `~/.cursor/skills/<name>/` or `.cursor/skills/<name>/` |
+| **Where** | `.cursor/rules/` (project) or `~/.cursor/rules/` (global) | `~/.cursor/skills/<name>/` or `.cursor/skills/<name>/` |
 | **Structure** | Single `.mdc` file | Folder with `SKILL.md`, `reference.md`, `assets/` |
+
+**Optional global rule:** `no-commit-trailers.mdc` — never add `Made-with: Cursor` to commits. This repo includes it at `.cursor/rules/no-commit-trailers.mdc`. Copy to `~/.cursor/rules/` for global effect.
 
 ---
 
@@ -23,7 +25,6 @@
 | **create-cursor-skill** | Create new Cursor skills from scratch | `git clone -b create-cursor-skill https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/create-cursor-skill ~/.cursor/skills/` |
 | **create-workflow** | Workflow skills (generic or repo-specific) | `git clone -b create-workflow https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/create-workflow ~/.cursor/skills/` |
 | **docker** | Docker, Dockerfile, docker-compose | `git clone -b docker https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/docker ~/.cursor/skills/` |
-| **editor-cursor-skill** | Edit skills in repo + global, edit-once-then-sync | `git clone -b editor-cursor-skill https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/editor-cursor-skill ~/.cursor/skills/` |
 | **gin-workflow** | GIN workflow (Jira + repo) | `git clone -b gin-workflow https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/gin-workflow ~/.cursor/skills/` |
 | **git-commits** | Commits, Conventional Commits, branching | `git clone -b git-commits https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/git-commits ~/.cursor/skills/` |
 | **github-readme** | GitHub README structure and badges | `git clone -b github-readme https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/github-readme ~/.cursor/skills/` |
@@ -32,7 +33,7 @@
 | **nestjs-unit-tests** | NestJS unit tests (Jest) | `git clone -b nestjs-unit-tests https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/nestjs-unit-tests ~/.cursor/skills/` |
 | **qa-agent** | QA + browser testing, user profiles, test resources | `git clone -b qa-agent https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/qa-agent ~/.cursor/skills/` |
 
-**Install all:** `git clone https://github.com/mariocosttaa/my-agent-skills.git && cd my-agent-skills && cp -r create-* docker editor-cursor-skill gin-workflow git-* github-readme nestjs-* qa-agent ~/.cursor/skills/`
+**Install all:** `git clone https://github.com/mariocosttaa/my-agent-skills.git && cd my-agent-skills && cp -r create-* docker gin-workflow git-* github-readme nestjs-* qa-agent ~/.cursor/skills/`
 
 Install per project: use `.cursor/skills/` instead of `~/.cursor/skills/`.
 
@@ -50,31 +51,11 @@ Some skills use **MCP (Model Context Protocol)**. You must enable the required M
 
 ---
 
-## Versioning & branches
+## Versioning
 
-| Branch | Purpose |
-|--------|---------|
-| **`main`** | All skills, latest. Clone this for everything. |
-| **`versions`** | Release snapshots; tags point here (e.g. `v1.0`). Use for specific versions. |
-| **`<skill-name>`** | Single skill only (e.g. `gin-workflow`, `docker`). Clone when you need just one. |
-
-**Skill branches:** `create-cursor-skill`, `create-workflow`, `docker`, `editor-cursor-skill`, `gin-workflow`, `git-commits`, `github-readme`, `nestjs-e2e-tests`, `nestjs-integration-tests`, `nestjs-unit-tests`, `qa-agent`
-
-### Download specific version (when tagged)
-
-```bash
-git clone --depth 1 --branch v1.0 https://github.com/mariocosttaa/my-agent-skills.git
-# or
-git clone https://github.com/mariocosttaa/my-agent-skills.git && cd my-agent-skills
-git fetch --tags && git checkout tags/v1.0
-```
-
-### Download single skill (lightweight)
-
-```bash
-git clone -b gin-workflow --depth 1 https://github.com/mariocosttaa/my-agent-skills.git
-cp -r my-agent-skills/gin-workflow ~/.cursor/skills/
-```
+- **`main`** — all skills, latest
+- **`<skill-name>`** — that skill only, latest
+- **`versions`** — tagged releases; use `git checkout <skill>/v1.x` for a specific version
 
 ---
 

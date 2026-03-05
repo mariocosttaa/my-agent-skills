@@ -1,6 +1,5 @@
 ---
 description: Mandatory rule — never add Made-with or similar trailers to commits
-globs: 
 alwaysApply: true
 ---
 
