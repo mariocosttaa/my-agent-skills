@@ -13,10 +13,10 @@
 
 | Resource | Value |
 |----------|-------|
+| **Device** | [Desktop (default) / Mobile / Tablet / Desktop fixed] — Desktop = no resize; Mobile 375×667, Tablet 768×1024, Desktop 1920×1080 |
 | **Browser** | [e.g. Chromium (Playwright), Chrome] |
-| **Resolution** | [e.g. 1920×1080] |
-| **Type of test** | [Smoke / Regression / Exploratory / Security] |
-| **User profile(s)** | [normal / all / power-clicker, over-editor, etc.] |
+| **Type of test** | [Smoke / Regression / Exploratory / Security / UI/UX] |
+| **User profile(s)** | [normal / all / power-clicker, ui-ux-design, etc.] |
 
 ---
 

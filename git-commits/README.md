@@ -11,6 +11,7 @@ Cursor skill for **commit messages** and **branch flow**: file grouping, Convent
 
 ## Main content (SKILL.md)
 
+- **No Made-with trailer** — Never add `Made-with: Cursor` or similar to commit messages. Mandatory.
 - Ask commit language (EN or other) and, when in doubt, ask before acting.
 - Grouping guideline (focus per commit; file count subjective).
 - Format: `type[(scope)]: description` + bullet body.

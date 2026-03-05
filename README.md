@@ -11,8 +11,10 @@
 | | Rules | Skills |
 |---|-------|--------|
 | **When** | Every prompt (or per file) | When relevant to the task |
-| **Where** | `.cursor/rules/` (`.mdc`) | `~/.cursor/skills/<name>/` or `.cursor/skills/<name>/` |
+| **Where** | `.cursor/rules/` (project) or `~/.cursor/rules/` (global) | `~/.cursor/skills/<name>/` or `.cursor/skills/<name>/` |
 | **Structure** | Single `.mdc` file | Folder with `SKILL.md`, `reference.md`, `assets/` |
+
+**Optional global rule:** `no-commit-trailers.mdc` — never add `Made-with: Cursor` to commits. This repo includes it at `.cursor/rules/no-commit-trailers.mdc`. Copy to `~/.cursor/rules/` for global effect.
 
 ---
 

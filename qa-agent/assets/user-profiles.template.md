@@ -18,6 +18,7 @@ Use different **user profiles** to simulate varied behaviours and uncover unexpe
 | **back-button** | Browser back, refresh mid-flow, resubmit | State restoration, back/forward, rehydration |
 | **edge-case** | Empty, very long strings, negative numbers, invalid formats | Boundary handling, validation |
 | **security-tester** | SQL-like strings, XSS attempts, invalid auth, weird payloads | Injection, auth bypass, security |
+| **ui-ux-design** | Check components, layout, responsivity; resize viewport; verify clarity, consistency, feedback | UI/UX, component layout, mobile/desktop breakpoints |
 
 ---
 

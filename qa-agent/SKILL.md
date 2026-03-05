@@ -1,6 +1,6 @@
 ---
 name: qa-agent
-version: 1.1
+version: 1.4
 description: >
   QA engineer skill. When testing web apps, UIs, or pages — ALWAYS use browser testing
   (browsermcp or mario-playwright-mcp). Use when the user wants QA, quality assurance,
@@ -47,6 +47,7 @@ Use **user profiles** to simulate different behaviours and surface unexpected bu
 | **back-button** | Browser back, refresh mid-flow |
 | **edge-case** | Empty, very long, invalid formats |
 | **security-tester** | SQL-like, XSS attempts, invalid auth |
+| **ui-ux-design** | Check components, layout, responsivity; resize viewport; verify clarity, consistency, feedback |
 
 - **Start with normal** — For simple tests or baseline.
 - **Test all profiles** — Full coverage; different behaviours reveal different bugs. **Default.**
@@ -61,10 +62,25 @@ Document **test resources** in `task-plan.md` and `report/overview.md`:
 | Resource | Example |
 |----------|---------|
 | **Browser** | Chromium (Playwright), Chrome, Firefox |
-| **Resolution** | 1920×1080, 1280×720, mobile viewport |
+| **Device** | Desktop (default, no resize) / Mobile / Tablet / Desktop fixed — see [Viewport and device presets](#viewport-and-device-presets) |
 | **URLs accessed** | Full list of URLs visited during the test |
-| **Type of test** | Smoke, regression, exploratory, security |
-| **User profile(s)** | normal, all, power-clicker, etc. |
+| **Type of test** | Smoke, regression, exploratory, security, UI/UX |
+| **User profile(s)** | normal, all, power-clicker, ui-ux-design, etc. |
+
+### Viewport and device presets
+
+**Default: desktop** — The browser opens at its own resolution. **Do not resize** unless the test plan requires a specific device. Let the browser use its native size for desktop tests.
+
+**Only when the test plan specifies a device** — Call `browser_resize` with the preset for that device. Use these 3 common sizes:
+
+| Device | Width × Height | Use when |
+|--------|----------------|----------|
+| **Mobile** | 375 × 667 | Test plan requires mobile; UI/UX responsivity |
+| **Tablet** | 768 × 1024 | Test plan requires tablet |
+| **Desktop** | 1920 × 1080 | Test plan requires fixed desktop size (otherwise use browser default) |
+
+- **Desktop (default):** No resize — browser opens at native resolution.
+- **Mobile / Tablet / Desktop (fixed):** Call `browser_resize` before navigating. Document the device in `task-plan.md`.
 
 ---
 
@@ -91,20 +107,28 @@ Document **test resources** in `task-plan.md` and `report/overview.md`:
 
 ### Tools — mario-playwright-mcp (recommended)
 
-When using **user-mario-playwright-mcp**, these tools support **saving to disk** for full evidence:
+When using **user-mario-playwright-mcp**, use these tools. **Source:** [mario-playwright-mcp](https://github.com/mariocosttaa/mario-playwright-mcp).
 
 | Tool | Use |
 |------|-----|
 | `browser_navigate` | Go to a URL |
+| `browser_navigate_back` | Go back |
 | `browser_snapshot` | Accessibility tree and element refs |
-| `browser_click`, `browser_type`, `browser_hover`, `browser_select_option`, `browser_press_key` | Interaction |
-| `browser_wait_for` | Pause for loading |
-| `browser_take_screenshot` | **Pass `filename`** to save into `.../browser/screenshots/` (e.g. `error-overlay.png`) |
-| `browser_console_messages` | **Pass `filename`** to save into `.../browser/` with **descriptive names** (e.g. `console-after-login.log`, `console-dashboard.log`). Use `level: "error"` or `"warning"`. **Never** let logs end up in workspace root. |
-| `browser_network_requests` | **Pass `filename`** to save into `.../browser/` (e.g. `network-after-login.json`). Use `includeStatic: false`. Capture response payloads when available. |
-| `browser_navigate_back` | Navigation back |
+| `browser_click`, `browser_type`, `browser_hover`, `browser_select_option`, `browser_press_key`, `browser_drag`, `browser_fill_form` | Interaction |
+| `browser_resize` | **Set viewport** — only when test plan requires Mobile, Tablet, or fixed Desktop; otherwise use browser default |
+| `browser_wait_for` | Pause for loading or text |
+| `browser_take_screenshot` | **Pass `filename`** to save into `.../browser/screenshots/` |
+| `browser_console_messages` | **Pass `filename`** to `.../browser/` with descriptive names (e.g. `console-after-login.log`). Use `level: "error"` or `"warning"`. |
+| `browser_network_requests` | **Pass `filename`** to `.../browser/` (e.g. `network-after-login.json`). Use `includeStatic: false`, `includePayloads: true` when debugging API. Use `url` to filter. |
+| `browser_tabs` | **List** (`action: "list"`), **new** (`action: "new"`), **close** (`action: "close"`, `index`), **select** (`action: "select"`, `index`). Use when testing multi-tab flows. |
+| `browser_close` | Close the browser when done (cleanup) |
+| `browser_evaluate` | Run JS on page (e.g. `() => document.title`) |
+| `browser_handle_dialog` | Accept/dismiss alert/confirm |
+| `browser_file_upload` | Upload files |
 
-**Evidence capture (mario-playwright only):** Always pass a **full path** inside `QA-AGENT/<project>/test/<ts>/browser/` so nothing is written to the workspace root. Use descriptive filenames for console (e.g. `console-after-login.log`) and network (e.g. `network-after-submit.json` with response payloads when the MCP provides them).
+**Tabs and closing:** Use `browser_tabs` to list tabs, create new ones, switch, or close. Call `browser_close` when finished to release resources. When starting a fresh run, ensure a clean state (close and reopen or rely on MCP fresh session).
+
+**Evidence capture:** Always pass a **full path** inside `QA-AGENT/<project>/test/<ts>/browser/`. Use descriptive filenames for console and network. Never write to workspace root.
 
 ### Tools — browsermcp (fallback)
 
@@ -216,16 +240,19 @@ After **every** significant action (submit, create, delete, save, login, etc.):
 2. **Check MCP** — **Mandatory.** Verify which browser MCP is available; **show the user** which one you will use. Prefer mario-playwright-mcp (screenshots to disk). If none, inform and wait.
 3. **Create output** — Create `QA-AGENT/<project>/project-context.md` (if new project), then `test/<run-folder>/` with `task-plan.md`, `report/`, and `browser/screenshots/` **before** any navigation.
 4. **Follow plan strictly** — Execute the test plan step by step.
-5. **Navigate** — `browser_navigate` to the target URL.
-6. **Inspect** — `browser_snapshot` to get structure and `ref` values.
-7. **Interact** — `browser_click`, `browser_type`, etc., using `ref` from snapshot.
-8. **Post-action analysis** — After **each** significant action: snapshot; screenshot (if errors); **save** `browser_console_messages` and `browser_network_requests` to `browser/` with descriptive filenames.
-9. **Screenshot on errors** — If the page shows error overlay, validation errors, or crashes, **immediately** take screenshot and save to `browser/screenshots/`. Use descriptive name.
-10. **Find bugs outside plan** — Try unexpected inputs and flows; report bugs even if not in the plan.
-11. **Persist** — Write `task-plan.md` at run level; write overview, errors, suggestions, test-results in `report/`. **Link screenshots in report/errors.md** for each issue. Ensure console/network files are in `browser/`, not workspace root.
-12. **Overview last** — Write `report/overview.md` only after the full flow and post-action analysis are complete.
+5. **Resize only if required** — If the test plan specifies Mobile, Tablet, or Desktop (fixed), call `browser_resize` with the preset (375×667, 768×1024, 1920×1080). Default is desktop — no resize, use browser's native resolution.
+6. **Navigate** — `browser_navigate` to the target URL.
+7. **Inspect** — `browser_snapshot` to get structure and `ref` values.
+8. **Interact** — `browser_click`, `browser_type`, etc., using `ref` from snapshot.
+9. **Post-action analysis** — After **each** significant action: snapshot; screenshot (if errors); **save** `browser_console_messages` and `browser_network_requests` to `browser/` with descriptive filenames.
+10. **Screenshot on errors** — If the page shows error overlay, validation errors, or crashes, **immediately** take screenshot and save to `browser/screenshots/`. Use descriptive name.
+11. **Find bugs outside plan** — Try unexpected inputs and flows; report bugs even if not in the plan.
+12. **Tabs** — Use `browser_tabs` to list, create, switch, or close tabs when testing multi-tab flows.
+13. **Persist** — Write `task-plan.md` at run level; write overview, errors, suggestions, test-results in `report/`. **Link screenshots in report/errors.md** for each issue. Ensure console/network files are in `browser/`, not workspace root.
+14. **Overview last** — Write `report/overview.md` only after the full flow and post-action analysis are complete.
+15. **Close when done** — Call `browser_close` when the run is finished.
 
-Repeat steps 5–9 for multi-step flows. **Never** skip post-action analysis or screenshots when errors appear.
+Repeat steps 6–10 for multi-step flows. **Never** skip post-action analysis or screenshots when errors appear. For UI/UX profile: call `browser_resize` for Mobile, Tablet, Desktop and repeat at each viewport.
 
 ---
 
@@ -241,7 +268,12 @@ Repeat steps 5–9 for multi-step flows. **Never** skip post-action analysis or 
 
 ---
 
-## UI/UX evaluation
+## UI/UX evaluation and responsivity
+
+For **UI/UX design profile** or when the plan includes layout/component checks:
+
+1. **Resize for responsivity** — Call `browser_resize` at Mobile (375×667), Tablet (768×1024), Desktop (1920×1080) and take screenshots. Verify components adapt; no horizontal scroll on mobile; text and CTAs remain accessible.
+2. **Component checks** — Verify clarity, hierarchy, consistency, feedback (loading, success, error), error handling.
 
 When reviewing or testing the interface, assess and report:
 
@@ -339,7 +371,9 @@ Use the structure in [assets/test-case.template.md](assets/test-case.template.md
 | Screenshots | **Take screenshots when errors appear** (overlay, validation, crash). Save to `browser/screenshots/`. Filename = where + why. Link in report/errors.md. |
 | Output structure | `report/` for all .md; `browser/` for console, network, screenshots. Never save to workspace root. |
 | Console | Call `browser_console_messages`; **mario-playwright:** pass `filename` to `.../browser/console-<context>.log` (descriptive name). |
-| Network | **mario-playwright only:** `browser_network_requests` with `filename` to `.../browser/network-<context>.json` (include response payloads when available). |
+| Network | **mario-playwright only:** **Always** call `browser_network_requests` after significant actions; save to `.../browser/network-<context>.json`. Document in report what the MCP returned (URLs, status, payloads if available); if payloads are not available, state that. |
+| Viewport | Default = desktop (no resize). Only call `browser_resize` when test plan requires Mobile (375×667), Tablet (768×1024), or Desktop fixed (1920×1080). |
+| Tabs / close | Use `browser_tabs` (list, new, close, select); call `browser_close` when done. |
 | Overview last | Write overview only after full flow and post-action analysis are done. |
 | Element refs | Always from `browser_snapshot`; re-snapshot after dynamic updates. |
 | Bug hunting | Try unexpected inputs and flows; report bugs even if outside the plan. |
