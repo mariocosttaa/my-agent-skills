@@ -20,18 +20,18 @@
 
 ## Skills
 
-| Skill | Description | Install |
-|-------|-------------|---------|
-| **create-cursor-skill** | Create new Cursor skills from scratch | `git clone -b create-cursor-skill https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/create-cursor-skill ~/.cursor/skills/` |
-| **create-workflow** | Workflow skills (generic or repo-specific) | `git clone -b create-workflow https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/create-workflow ~/.cursor/skills/` |
-| **docker** | Docker, Dockerfile, docker-compose | `git clone -b docker https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/docker ~/.cursor/skills/` |
-| **gin-workflow** | GIN workflow (Jira + repo) | `git clone -b gin-workflow https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/gin-workflow ~/.cursor/skills/` |
-| **git-commits** | Commits, Conventional Commits, branching | `git clone -b git-commits https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/git-commits ~/.cursor/skills/` |
-| **github-readme** | GitHub README structure and badges | `git clone -b github-readme https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/github-readme ~/.cursor/skills/` |
-| **nestjs-e2e-tests** | E2E with Playwright (NestJS) | `git clone -b nestjs-e2e-tests https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/nestjs-e2e-tests ~/.cursor/skills/` |
-| **nestjs-integration-tests** | NestJS API + DB integration tests | `git clone -b nestjs-integration-tests https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/nestjs-integration-tests ~/.cursor/skills/` |
-| **nestjs-unit-tests** | NestJS unit tests (Jest) | `git clone -b nestjs-unit-tests https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/nestjs-unit-tests ~/.cursor/skills/` |
-| **qa-agent** | QA + browser testing, user profiles, test resources | `git clone -b qa-agent https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/qa-agent ~/.cursor/skills/` |
+| Skill | Description | Install (latest) |
+|-------|-------------|------------------|
+| **create-cursor-skill** | Create new Cursor skills from scratch | `git clone https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/create-cursor-skill ~/.cursor/skills/` |
+| **create-workflow** | Workflow skills (generic or repo-specific) | `git clone https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/create-workflow ~/.cursor/skills/` |
+| **docker** | Docker, Dockerfile, docker-compose | `git clone https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/docker ~/.cursor/skills/` |
+| **gin-workflow** | GIN workflow (Jira + repo) | `git clone https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/gin-workflow ~/.cursor/skills/` |
+| **git-commits** | Commits, Conventional Commits, branching | `git clone https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/git-commits ~/.cursor/skills/` |
+| **github-readme** | GitHub README structure and badges | `git clone https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/github-readme ~/.cursor/skills/` |
+| **nestjs-e2e-tests** | E2E with Playwright (NestJS) | `git clone https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/nestjs-e2e-tests ~/.cursor/skills/` |
+| **nestjs-integration-tests** | NestJS API + DB integration tests | `git clone https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/nestjs-integration-tests ~/.cursor/skills/` |
+| **nestjs-unit-tests** | NestJS unit tests (Jest) | `git clone https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/nestjs-unit-tests ~/.cursor/skills/` |
+| **qa-agent** | QA + browser testing, user profiles, test resources | `git clone https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/qa-agent ~/.cursor/skills/` |
 
 **Install all:** `git clone https://github.com/mariocosttaa/my-agent-skills.git && cd my-agent-skills && cp -r create-* docker gin-workflow git-* github-readme nestjs-* qa-agent ~/.cursor/skills/`
 
@@ -53,9 +53,10 @@ Some skills use **MCP (Model Context Protocol)**. You must enable the required M
 
 ## Versioning
 
-- **`main`** — all skills, latest
-- **`<skill-name>`** — that skill only, latest
-- **`versions`** — tagged releases; use `git checkout <skill>/v1.x` for a specific version
+- **Latest** — clone main (or skill branch for single skill). Skill root = current.
+- **Specific version** — clone repo, checkout `versions` branch, use `skills/<name>/versions/vX.Y/` (e.g. `git-commits/versions/v1.0/`).
+
+Each skill has a `versions/` folder. Released snapshots go in `versions/vX.Y/`.
 
 ---
 

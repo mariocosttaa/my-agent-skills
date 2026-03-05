@@ -25,11 +25,14 @@ Cursor skill for **commit messages** and **branch flow**: Conventional Commits, 
 
 ## Install
 
+**Latest:**
 ```bash
-git clone -b git-commits https://github.com/mariocosttaa/my-agent-skills.git
+git clone https://github.com/mariocosttaa/my-agent-skills.git
 cp -r my-agent-skills/git-commits ~/.cursor/skills/
 ```
 
+**Specific version:** clone repo → checkout `versions` → copy `git-commits/versions/vX.Y/` to `~/.cursor/skills/git-commits/`.
+
 ---
 
-→ [See all skills on main](https://github.com/mariocosttaa/my-agent-skills)
+→ [See all skills](https://github.com/mariocosttaa/my-agent-skills)
