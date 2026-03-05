@@ -23,11 +23,14 @@ Cursor skill for **Docker**, **Dockerfile** and **docker-compose** — best prac
 
 ## Install
 
+**Latest:**
 ```bash
-git clone -b docker https://github.com/mariocosttaa/my-agent-skills.git
+git clone https://github.com/mariocosttaa/my-agent-skills.git
 cp -r my-agent-skills/docker ~/.cursor/skills/
 ```
 
+**Specific version:** clone repo → checkout `versions` → copy `docker/versions/vX.Y/` to `~/.cursor/skills/docker/`.
+
 ---
 
-→ [See all skills on main](https://github.com/mariocosttaa/my-agent-skills)
+→ [See all skills](https://github.com/mariocosttaa/my-agent-skills)
