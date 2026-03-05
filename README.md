@@ -7,7 +7,7 @@ Create Agent Skills — folder structure, SKILL.md, frontmatter, .mdc rules ([ag
 ## Quick install
 
 ```bash
-git clone -b create-cursor-skill https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/create-cursor-skill ~/.cursor/skills/
+git clone https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/create-cursor-skill ~/.cursor/skills/
 ```
 
 → [See all skills](https://github.com/mariocosttaa/my-agent-skills)
