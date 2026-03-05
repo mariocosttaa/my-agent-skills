@@ -25,6 +25,9 @@ Cursor skill for the **GIN project workflow** — per-requirement planning and e
 | `assets/` | Templates (requisitos, plan, tasks, overview, suggestions). |
 | `README.md` | This file — documentation for humans. |
 
-## Source
+## Install
 
-From [my-agent-skills](https://github.com/mariocosttaa/my-agent-skills): `git clone -b gin-workflow https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/gin-workflow ~/.cursor/skills/`
+```bash
+git clone -b gin-workflow https://github.com/mariocosttaa/my-agent-skills.git
+cp -r my-agent-skills/gin-workflow ~/.cursor/skills/
+```
