@@ -14,7 +14,7 @@
 | **Where** | `.cursor/rules/` (project) or `~/.cursor/rules/` (global) | `~/.cursor/skills/<name>/` or `.cursor/skills/<name>/` |
 | **Structure** | Single `.mdc` file | Folder with `SKILL.md`, `reference.md`, `assets/` |
 
-**Optional global rule:** `no-commit-trailers.mdc` — never add `Made-with: Cursor` to commits. This repo includes it at `.cursor/rules/no-commit-trailers.mdc`. Copy to `~/.cursor/rules/` for global effect.
+**Optional rule:** `no-commit-trailers.mdc` — never add `Made-with: Cursor` to commits. Create locally in `~/.cursor/rules/` for global effect.
 
 ---
 
@@ -54,7 +54,7 @@ Some skills use **MCP (Model Context Protocol)**. You must enable the required M
 ## Versioning
 
 - **Latest** — clone main (or skill branch for single skill). Skill root = current.
-- **Specific version** — clone repo, checkout `versions` branch, use `skills/<name>/versions/vX.Y/` (e.g. `git-commits/versions/v1.0/`).
+- **Specific version** — clone repo, checkout `versions` branch, use `<skill>/versions/vX.Y/` (e.g. `git-commits/versions/v1.0/`).
 
 Each skill has a `versions/` folder. Released snapshots go in `versions/vX.Y/`.
 
