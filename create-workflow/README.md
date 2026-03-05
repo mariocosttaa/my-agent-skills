@@ -24,13 +24,16 @@ Cursor skill for **creating workflow skills** — per-requirement workflows, bra
 
 ## Install
 
+**Latest:**
 ```bash
-git clone -b create-workflow https://github.com/mariocosttaa/my-agent-skills.git
+git clone https://github.com/mariocosttaa/my-agent-skills.git
 cp -r my-agent-skills/create-workflow ~/.cursor/skills/
 ```
 
-**Example:** [gin-workflow](https://github.com/mariocosttaa/my-agent-skills/tree/gin-workflow) — complete workflow skill.
+**Specific version:** clone repo → checkout `versions` → copy `create-workflow/versions/vX.Y/` to `~/.cursor/skills/create-workflow/`.
+
+**Example:** [gin-workflow](https://github.com/mariocosttaa/my-agent-skills) — complete workflow skill.
 
 ---
 
-→ [See all skills on main](https://github.com/mariocosttaa/my-agent-skills)
+→ [See all skills](https://github.com/mariocosttaa/my-agent-skills)
