@@ -28,9 +28,12 @@
 
 ---
 
-## Source
+## Install
 
-From [my-agent-skills](https://github.com/mariocosttaa/my-agent-skills): `git clone -b create-workflow https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/create-workflow ~/.cursor/skills/`
+```bash
+git clone -b create-workflow https://github.com/mariocosttaa/my-agent-skills.git
+cp -r my-agent-skills/create-workflow ~/.cursor/skills/
+```
 
 ---
 
