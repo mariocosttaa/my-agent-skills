@@ -26,11 +26,14 @@ Cursor skill for **integration tests** in NestJS (API + DB) with Supertest, fact
 
 ## Install
 
+**Latest:**
 ```bash
-git clone -b nestjs-integration-tests https://github.com/mariocosttaa/my-agent-skills.git
+git clone https://github.com/mariocosttaa/my-agent-skills.git
 cp -r my-agent-skills/nestjs-integration-tests ~/.cursor/skills/
 ```
 
+**Specific version:** clone repo → checkout `versions` → copy `nestjs-integration-tests/versions/vX.Y/` to `~/.cursor/skills/nestjs-integration-tests/`.
+
 ---
 
-→ [See all skills on main](https://github.com/mariocosttaa/my-agent-skills)
+→ [See all skills](https://github.com/mariocosttaa/my-agent-skills)
