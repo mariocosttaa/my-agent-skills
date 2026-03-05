@@ -13,7 +13,7 @@ Example: `gin_local_smoke_2026-03-05_12-50-49`
 <workspace-root>/QA-AGENT/<project-name>/
 ├── project-context.md  — Project-level context (URL, env, key flows, notes)
 └── test/<run-folder>/
-    ├── task-plan.md    — Task/plan for this run: URL, date, scope, quick summary, links
+    ├── task-plan.md    — Written before testing: what you will do, test resources (browser, resolution, type, profiles), URLs accessed, plan (mandatory)
     ├── report/
     │   ├── overview.md     — Full overview (plan, scope, summary)
     │   ├── errors.md       — Bugs/errors with screenshot links

@@ -9,6 +9,18 @@
 
 ---
 
+## Test resources
+
+| Resource | Value |
+|----------|-------|
+| **Browser** | [e.g. Chromium (Playwright)] |
+| **Resolution** | [e.g. 1920×1080] |
+| **Type of test** | [Smoke / Regression / Exploratory / Security] |
+| **User profile(s)** | [normal, all, power-clicker, etc.] |
+| **URLs accessed** | [list of URLs visited] |
+
+---
+
 ## Test plan followed
 
 [Brief description of the plan/context the user provided and how it was executed]
@@ -19,7 +31,6 @@
 
 - **Pages tested:** [list]
 - **Flows tested:** [list]
-- **Environment:** [e.g. Chrome, macOS]
 
 ---
 

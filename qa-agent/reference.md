@@ -86,6 +86,48 @@ Prioritize tests by impact:
 
 ---
 
+## User profiles
+
+Test with different **user profiles** to simulate varied behaviours and uncover bugs:
+
+| Profile | Focus |
+|---------|-------|
+| normal | Baseline; typical flow |
+| power-clicker | Rapid clicks, spam; race conditions |
+| over-editor | Re-edit fields; dirty state, validation |
+| url-manipulator | Add params, change paths; routing, security |
+| keyboard-heavy | Tab, Enter; a11y |
+| impatient | Submit early; validation |
+| copy-paster | Long text, special chars; sanitization |
+| back-button | Back/refresh mid-flow; state |
+| edge-case | Empty, invalid; boundaries |
+| security-tester | SQL-like, XSS; injection, auth |
+
+**Ask before starting:** all profiles (default) or normal only.
+
+---
+
+## Test resources (record in every run)
+
+- **Browser** — Chromium, Chrome, Firefox
+- **Resolution** — 1920×1080, 1280×720, mobile
+- **URLs accessed** — Full list visited
+- **Type** — Smoke, regression, exploratory, security
+- **Profile(s)** — Which user profile(s) used
+
+---
+
+## URL manipulation
+
+Add query params, change paths, use malformed URLs to test:
+
+- Routing and 404 handling
+- Param parsing and validation
+- Security (injection via URL)
+- Deep links and direct access
+
+---
+
 ## Catching errors — unexpected and adversarial testing
 
 | Strategy | Examples |
@@ -96,6 +138,7 @@ Prioritize tests by impact:
 | Special characters | `<>"'&`, emoji, SQL snippets, script-like strings |
 | Unusual sequences | Submit before load; double-click submit; back button mid-flow |
 | Rapid interaction | Spam click; type very fast; submit multiple times |
+| URL manipulation | Add `?foo=bar`, `?id=1'OR'1'='1`; change paths |
 
 After each action: check `browser_get_console_logs` and snapshot for crashes, uncaught errors, or broken UI.
 

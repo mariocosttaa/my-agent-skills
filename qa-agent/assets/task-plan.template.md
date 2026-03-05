@@ -1,5 +1,7 @@
 # Task plan — [Project Name] / [URL]
 
+> **Write this file before starting any test.** It defines what you will do in this run.
+
 **Date:** [YYYY-MM-DD HH:mm]  
 **Project:** [e.g. gin]  
 **URL tested:** [e.g. http://localhost:3000]  
@@ -7,9 +9,28 @@
 
 ---
 
-## Task / plan
+## Test resources
 
-[What was requested to test — scope, flows, context]
+| Resource | Value |
+|----------|-------|
+| **Device** | [Desktop (default) / Mobile / Tablet / Desktop fixed] — Desktop = no resize; Mobile 375×667, Tablet 768×1024, Desktop 1920×1080 |
+| **Browser** | [e.g. Chromium (Playwright), Chrome] |
+| **Type of test** | [Smoke / Regression / Exploratory / Security / UI/UX] |
+| **User profile(s)** | [normal / all / power-clicker, ui-ux-design, etc.] |
+
+---
+
+## URLs accessed (update during test)
+
+- [e.g. http://localhost:3000]
+- [e.g. http://localhost:3000/login]
+- [...]
+
+---
+
+## Task / plan (what you will do)
+
+[Scope, flows to test, steps you will execute — write this before navigating or running tests]
 
 ---
 

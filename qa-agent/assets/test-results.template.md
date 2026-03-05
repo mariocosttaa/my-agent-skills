@@ -4,6 +4,13 @@
 **URL tested:** [e.g. https://example.com]  
 **Test plan:** [Brief description or link to plan]
 
+| Resource | Value |
+|----------|-------|
+| **Browser** | [e.g. Chromium] |
+| **Resolution** | [e.g. 1920×1080] |
+| **Type of test** | [Smoke / Regression / Exploratory] |
+| **User profile(s)** | [normal, all, etc.] |
+
 ---
 
 ## Overall status
