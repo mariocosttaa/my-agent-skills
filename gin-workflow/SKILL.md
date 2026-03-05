@@ -3,9 +3,9 @@ name: gin-workflow
 description: >
   Plans and executes the workflow per requirement in the GIN project (Jira + repository).
   Use when the user indicates a Jira requirement (e.g. GIN-AZ-42), asks to create/open a feature,
-  write requisitos.md, plan.md, tasks.md, suggestions.md or overview.md, update the README, or
-  follow the workflow. The skill should be read at the start (setup) and during (filling).
-  Use github-readme when working on the README.
+  write requisitos.md, plan.md, tasks.md, suggestions.md, overview.md or qa-plan.md, update the
+  README, or follow the workflow. On completion, asks if user needs QA handoff; if yes, creates
+  qa-plan.md with context, test scenarios, and asks for credentials. Use github-readme for README.
 ---
 
 # GIN Workflow — Requirement → Plan → Tasks → Overview
@@ -50,6 +50,7 @@ Plan, tasks, suggestions and overview throughout implementation.
 | `tasks.md` | ✅ | Checklist `[ ]` / `[x]`; update during. |
 | `overview.md` | ✅ | Final summary (fill on completion). |
 | `suggestions.md` | Optional | Errors found and suggestions that do not depend on the requirement; with reference and location. |
+| `qa-plan.md` | Optional | QA handoff: context, test instructions, credentials (fill when user requests QA handoff). |
 
 ### suggestions.md (optional)
 
@@ -108,6 +109,24 @@ Implement with Jest, mock the repository.
 - **Review `tasks.md`**: relevant tasks with `[x]`.
 - **Fill `overview.md`**: concise summary of what was implemented (pt-PT).
 - **Update the README** if needed.
+- **Ask for QA handoff**: *"Do you need a QA context document to pass to the test team (for this new feature, fix, or removal)?"*
+
+### QA handoff (optional) — when user accepts
+
+If the user needs QA context:
+
+1. **Ask** what type of change: new feature, fix, or removal.
+2. **Offer deep research** if needed: *"I may need to explore [architecture, flows, dependencies] to give QA full context. Should I do that first?"*
+3. **Create `qa-plan.md`** in `/<jira-code>/` with:
+   - Summary of what was implemented/fixed/removed.
+   - Relevant context (URLs, flows, affected areas).
+   - **Account/credentials**: ask the user for test account details (e.g. login, password, roles) and include them in the plan — or note that the user must provide them separately (never store real production credentials).
+   - Suggested test scenarios, edge cases, and areas to focus on.
+   - Environment setup (how to run, seed data, API keys if needed).
+4. **Ask** for any missing info: account credentials, environment URLs, special setup.
+5. Use **qa-agent** skill if the user wants automated browser testing or test-case design.
+
+See [assets/qa-plan.template.md](assets/qa-plan.template.md).
 
 ---
 
@@ -116,9 +135,9 @@ Implement with Jest, mock the repository.
 - **When:** When creating a new feature or on completion.
 - **How:** Use **github-readme**; ask before rewriting the entire README.
 - **Required content:** Section referencing the files per feature:
-  - `requisitos.md`, `plan.md`, `tasks.md`, `overview.md`; optionally `suggestions.md`.
+  - `requisitos.md`, `plan.md`, `tasks.md`, `overview.md`; optionally `suggestions.md`, `qa-plan.md`.
 
-Example: "In each `<jira-code>/` folder there are `requisitos.md`, `plan.md`, `tasks.md`, `overview.md` and, optionally, `suggestions.md`."
+Example: "In each `<jira-code>/` folder there are `requisitos.md`, `plan.md`, `tasks.md`, `overview.md` and, optionally, `suggestions.md`, `qa-plan.md`."
 
 ---
 
@@ -129,6 +148,7 @@ Example: "In each `<jira-code>/` folder there are `requisitos.md`, `plan.md`, `t
 - [assets/tasks.template.md](assets/tasks.template.md)
 - [assets/overview.template.md](assets/overview.template.md)
 - [assets/suggestions.template.md](assets/suggestions.template.md) (optional)
+- [assets/qa-plan.template.md](assets/qa-plan.template.md) (optional, QA handoff)
 
 See [reference.md](reference.md) for more.
 
@@ -142,3 +162,4 @@ See [reference.md](reference.md) for more.
 - **tasks.md**: `[ ]` to do, `[x]` done; blank line between tasks; optional short description below.
 - **Commits**: granular and descriptive on the feature branch.
 - **README**: update in the start phase and on completion; include section linking to the feature files.
+- **QA handoff**: on completion, ask if user needs `qa-plan.md`; create it with context, credentials (ask user), and test scenarios; offer deep research if needed.

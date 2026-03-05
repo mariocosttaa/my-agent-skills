@@ -106,7 +106,7 @@ Versioning starts at **1.0** and increments with each commit. Each skill branch 
 
 | Branch | Skill | v. initial | v. current | Install (copy) |
 |--------|-------|------------|-----------|-------------------|
-| `main` | All skills | 1.0 | 1.8 | `git clone https://github.com/mariocosttaa/my-agent-skills.git && cd my-agent-skills && cp -r create-* docker gin-workflow git-* github-readme nestjs-* ~/.cursor/skills/` |
+| `main` | All skills | 1.0 | 1.9 | `git clone https://github.com/mariocosttaa/my-agent-skills.git && cd my-agent-skills && cp -r create-* docker gin-workflow git-* github-readme nestjs-* qa-agent ~/.cursor/skills/` |
 | `create-cursor-skill` | Create new Cursor skills | 1.0 | 1.6 | `git clone -b create-cursor-skill https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/create-cursor-skill ~/.cursor/skills/` |
 | `create-workflow` | Create workflow skills (generic or repo-specific) | 1.0 | 1.7 | `git clone -b create-workflow https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/create-workflow ~/.cursor/skills/` |
 | `docker` | Docker, Dockerfile, docker-compose | 1.0 | 1.6 | `git clone -b docker https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/docker ~/.cursor/skills/` |
@@ -116,7 +116,7 @@ Versioning starts at **1.0** and increments with each commit. Each skill branch 
 | `nestjs-e2e-tests` | E2E with Playwright (NestJS) | 1.0 | 1.4 | `git clone -b nestjs-e2e-tests https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/nestjs-e2e-tests ~/.cursor/skills/` |
 | `nestjs-integration-tests` | NestJS integration tests | 1.0 | 1.4 | `git clone -b nestjs-integration-tests https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/nestjs-integration-tests ~/.cursor/skills/` |
 | `nestjs-unit-tests` | NestJS unit tests | 1.0 | 1.4 | `git clone -b nestjs-unit-tests https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/nestjs-unit-tests ~/.cursor/skills/` |
-| `qa-agent` | QA engineer + browser testing (Browser MCP) | 1.0 | 1.0 | Pre-installed globally at `~/.cursor/skills/qa-agent` |
+| `qa-agent` | QA engineer + browser testing (Browser MCP) | 1.0 | 1.0 | `git clone -b qa-agent https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/qa-agent ~/.cursor/skills/` |
 | `versions` | Release history (tagged versions) | — | — | Use tags to checkout specific versions; see Versioning model above |
 
 To install **per project** instead of globally, replace `~/.cursor/skills/` with `.cursor/skills/` (at repo root).

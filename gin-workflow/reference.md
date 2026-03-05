@@ -12,6 +12,7 @@
 | tasks.md | pt-PT, checklist `[ ]` / `[x]` |
 | overview.md | pt-PT, final summary (fill on completion) |
 | suggestions.md | pt-PT, optional; errors and suggestions with reference/location |
+| qa-plan.md | pt-PT, optional; QA handoff with context, credentials, test scenarios |
 
 ## tasks.md format
 
@@ -30,6 +31,7 @@
 
 - **github-readme**: Use when updating the README; include reference to the feature files.
 - **git-commits**: Granular commits and descriptive messages.
+- **qa-agent**: Use when creating qa-plan or when the user wants browser testing, test-case design, or QA validation.
 
 ## suggestions.md format
 
@@ -43,7 +45,8 @@ Sections: **Errors found**, **Improvement suggestions**, **Other notes**. Table 
 
 - **Start (setup)**: branch, directory, requirements, structure, README.
 - **During (filling)**: plan, tasks, suggestions (optional), overview on completion.
+- **On completion**: overview, README; ask if user needs QA handoff; if yes, create qa-plan.md.
 
 ## Templates
 
-See `assets/requisitos.template.md`, `assets/plan.template.md`, `assets/tasks.template.md`, `assets/overview.template.md`, `assets/suggestions.template.md`.
+See `assets/requisitos.template.md`, `assets/plan.template.md`, `assets/tasks.template.md`, `assets/overview.template.md`, `assets/suggestions.template.md`, `assets/qa-plan.template.md`.
