@@ -1,27 +1,24 @@
-# Skill: github-readme
+# github-readme
 
-Cursor skill to create and improve GitHub repository READMEs.
+Cursor skill for **GitHub READMEs** — structure, badges, Mermaid, quick start, build mode.
 
-## What it does
+## What this skill does
 
-- Structures READMEs with: badges (shields.io), project name, description, Mermaid (if needed), preview (image/GIF), objective, quick start, examples.
-- **Build mode:** the agent asks first (name, stack, objective, quick start, Mermaid, preview, etc.) and only then generates the README.
-- Always reminds the user they can change the content.
+- **Build mode** — Agent asks first (name, stack, objective, quick start, Mermaid, preview) before generating.
+- **Structure** — Badges (shields.io), description, Mermaid diagrams, preview image/GIF, objective, quick start, examples.
+- **Editable** — Always reminds the user they can change the content.
 
 ## When to use
 
-- "Create a README for this repo"
-- "Improve the GitHub README"
-- "Add badges to the README"
-- "Document the project in the README"
+- Create a README for this repo.
+- Improve the GitHub README, add badges, document the project.
 
 ## Files
 
 | File | Use |
 |------|-----|
-| `SKILL.md` | Main instructions for the agent. |
-| `reference.md` | Detailed structure, badge and section examples. |
-| `README.md` | This file — documentation for humans. |
+| `SKILL.md` | Agent instructions |
+| `reference.md` | Structure, badge and section examples |
 
 ## Install
 
@@ -29,3 +26,7 @@ Cursor skill to create and improve GitHub repository READMEs.
 git clone -b github-readme https://github.com/mariocosttaa/my-agent-skills.git
 cp -r my-agent-skills/github-readme ~/.cursor/skills/
 ```
+
+---
+
+→ [See all skills on main](https://github.com/mariocosttaa/my-agent-skills)
