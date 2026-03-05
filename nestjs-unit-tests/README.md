@@ -27,6 +27,9 @@ Cursor skill that guides writing **unit tests** in NestJS with Jest.
 
 The skill applies when the user creates or edits unit tests in NestJS projects (files `*.spec.ts`, mentions of unit tests, Jest, etc.).
 
-## Source
+## Install
 
-From [my-agent-skills](https://github.com/mariocosttaa/my-agent-skills): `git clone -b nestjs-unit-tests https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/nestjs-unit-tests ~/.cursor/skills/`
+```bash
+git clone -b nestjs-unit-tests https://github.com/mariocosttaa/my-agent-skills.git
+cp -r my-agent-skills/nestjs-unit-tests ~/.cursor/skills/
+```
