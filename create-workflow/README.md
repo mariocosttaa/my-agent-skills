@@ -1,32 +1,26 @@
 # create-workflow
 
-**Skill that guides creation of workflow skills in Cursor** — per-requirement workflows, branch conventions, Jira/Linear integration, repo-specific vs generic.
+Cursor skill for **creating workflow skills** — per-requirement workflows, branch conventions, Jira/Linear, repo-specific vs generic.
 
----
+## What this skill does
+
+- **Questions first** — Type, scope, integration, file structure, language before implementing.
+- **Workflow types** — Generic vs repo-specific; when to create a rule.
+- **Rule template** — Repo-specific workflow with `alwaysApply: true`.
+- **Output** — Skill structure similar to gin-workflow (requisitos, plan, tasks, overview).
 
 ## When to use
 
-- You want to **define a development workflow** for a project or team.
-- You need to **create a workflow skill** (like gin-workflow) for another context.
-- You want to document conventions (branches, requisitos, plan, tasks, overview).
-
----
-
-## Main content (SKILL.md)
-
-- Questions before starting (type, scope, integration, file structure, language).
-- Workflow types: generic vs repo-specific; when to create a rule.
-- Rule template for repo-specific workflows with `alwaysApply: true`.
-
----
+- Define a development workflow for a project or team.
+- Create a workflow skill (like gin-workflow) for another context.
+- Document conventions (branches, requisitos, plan, tasks, overview).
 
 ## Files
 
-- **SKILL.md** — Agent instructions.
-- **reference.md** — Rule vs Skill, example rule, difference from gin-workflow.
-- **README.md** — This file (for humans).
-
----
+| File | Use |
+|------|-----|
+| `SKILL.md` | Agent instructions |
+| `reference.md` | Rule vs Skill, example rule, difference from gin-workflow |
 
 ## Install
 
@@ -35,8 +29,8 @@ git clone -b create-workflow https://github.com/mariocosttaa/my-agent-skills.git
 cp -r my-agent-skills/create-workflow ~/.cursor/skills/
 ```
 
+**Example:** [gin-workflow](https://github.com/mariocosttaa/my-agent-skills/tree/gin-workflow) — complete workflow skill.
+
 ---
 
-## Reference
-
-See [gin-workflow](https://github.com/mariocosttaa/my-agent-skills/tree/gin-workflow) as a complete workflow skill example.
+→ [See all skills on main](https://github.com/mariocosttaa/my-agent-skills)
