@@ -7,7 +7,7 @@ QA engineering: browser testing, 10 user profiles, test resources, structured re
 ## Quick install
 
 ```bash
-git clone -b qa-agent https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/qa-agent ~/.cursor/skills/
+git clone https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/qa-agent ~/.cursor/skills/
 ```
 
 → [See all skills](https://github.com/mariocosttaa/my-agent-skills)
