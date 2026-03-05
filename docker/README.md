@@ -22,6 +22,9 @@ When the user works with Docker, Dockerfile, docker-compose, containers or deplo
 | `reference.md` | Detailed patterns, service examples, overrides and variables. |
 | `README.md` | This file — documentation for humans (not injected into the agent). |
 
-## Source
+## Install
 
-From [my-agent-skills](https://github.com/mariocosttaa/my-agent-skills): `git clone -b docker https://github.com/mariocosttaa/my-agent-skills.git && cp -r my-agent-skills/docker ~/.cursor/skills/`
+```bash
+git clone -b docker https://github.com/mariocosttaa/my-agent-skills.git
+cp -r my-agent-skills/docker ~/.cursor/skills/
+```
